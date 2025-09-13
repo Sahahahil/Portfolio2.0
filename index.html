@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Portforlio website </title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,13 +14,46 @@
     <nav class="navbar">
         <a href="#" class="logo">Portforlio.</a>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li class="active"><a href="#">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Portforlio</a></li>
             <li><a href="#">Service</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
+
+    <div class="bars-animation">
+        <div class="bar" style="--i:6;"></div>
+        <div class="bar" style="--i:5;"></div>
+        <div class="bar" style="--i:4;"></div>
+        <div class="bar" style="--i:3;"></div>
+        <div class="bar" style="--i:2;"></div>
+        <div class="bar" style="--i:1;"></div>
+    </div>
+
+    <section class="home">
+        <div class="home-info">
+            <h1>Sahil Duwal</h1>
+            <h2>Computer Engineer</h2>
+            <p>Bachelor of Computer Engineering student passionate about AI, data science, computer vision, and exploring innovative technology solutions through hands-on projects.</p>
+            <div class="btn-sci">
+                <a href="" class="btn">Download CV</a>
+                <div class="sci">
+                    <a href="#"><i class='bx bxl-github'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin' ></i></a>
+                    <a href="#"><i class='bx bxl-gmail' ></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="home-img">
+            <div class="img-box">
+                <div class="img-item">
+                    <img src="home.png" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
