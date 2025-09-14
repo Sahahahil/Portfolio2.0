@@ -11,6 +11,10 @@
     background: #1f241f;
 } */
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
     color: #fff;
     text-decoration: none;
@@ -125,7 +129,7 @@ a {
 }
 
 .home-info h3 {
-    font-size: 24px;
+    font-size: 24   px;
     margin: 10px 0 25px;
 }
 
