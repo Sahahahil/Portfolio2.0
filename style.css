@@ -68,9 +68,14 @@ a {
 .home {
     display: flex;
     align-items: center;
+    gap: 50px;
     height: 100vh;
     padding: 60px 9% 0;
     color: white;
+    visibility: hidden;
+    opacity: 0;
+    animation: show-content 1.5s linear forwards;
+    animation-delay: 1.5s;
 }
 
 .home-info h1 {
@@ -78,8 +83,45 @@ a {
 }
 
 .home-info h2 {
+    display: inline-block;
     font-size: 32px;
     margin-top: -10px;
+}
+
+.home-info h2 span {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: .7px cadetblue;
+    animation: display-text 12s linear infinite;
+    animation-delay: calc(-3s * var(--i));
+}
+
+@keyframes display-text {
+    25%, 100% {
+        display: none;
+    }
+}
+
+.home-info h2 span::before {
+    content: attr(data-text);
+    position: absolute;
+    width: 0;
+    border-right: 2px solid cadetblue;
+    color: cadetblue;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: fill-text 4s linear infinite;
+}
+
+@keyframes fill-text {
+    10%, 100% {
+        width: 0;
+    }
+
+    70%, 90% {
+        width: 100%;
+    }
 }
 
 .home-info p {
@@ -134,8 +176,8 @@ a {
 
 .home-img .img-box {
     position: relative;
-    width: 20vw;
-    height: 20vw;
+    width: 30vw;
+    height: 30vw;
     /* background-color: white; */
     border-radius: 50%;
     padding: 5px;
@@ -152,6 +194,18 @@ a {
     width: 700px;
     height: 700px;
     background: conic-gradient(transparent, transparent, transparent, cadetblue);
+    transform: rotate(0deg);
+    animation: rotate-border 10s linear infinite;
+}
+
+.home-img .img-box::after {
+    animation-delay: -5s;
+}
+
+@keyframes rotate-border {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .home-img .img-box .img-item {
