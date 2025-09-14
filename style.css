@@ -7,6 +7,88 @@
     font-family: 'Poppins', 'sans-serif';
 }
 
+@media (max-width: 768px) {
+  .home {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .about h2 {
+    font-size: 30px;
+  }
+
+  .about > p {
+    font-size: 16px;
+  }
+
+  .about-box {
+    padding: 18px;
+  }
+
+  .about-box h3 {
+    font-size: 20px;
+  }
+
+  .about-box p,
+  .about-box ul li {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .portfolio h2 {
+    font-size: 30px;
+  }
+
+  .project-info p {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .skills h2 {
+    font-size: 30px;
+  }
+
+  .skills p {
+    font-size: 16px;
+  }
+
+  .skill-box h3 {
+    font-size: 20px;
+  }
+
+  .skill-box ul li {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .contact-info {
+    text-align: center;
+  }
+
+  .info-item {
+    justify-content: center;
+  }
+
+  .contact-form button {
+    align-self: center;
+  }
+}
+
+
 /* body {
     background: #1f241f;
 } */
@@ -258,3 +340,335 @@ a {
         transform: translateY(0%);
     }
 }
+
+.about {
+  padding: 80px 9%;
+  background: #1f241f;
+  color: white;
+}
+
+.about h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: cadetblue;
+  text-align: center;
+}
+
+.about > p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 50px;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column; /* ✅ Stack everything vertically */
+  gap: 25px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-box {
+  background: #2a2f2a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.about-box:hover {
+  transform: translateY(-5px);
+}
+
+.about-box h3 {
+  font-size: 22px;
+  color: cadetblue;
+  margin-bottom: 12px;
+}
+
+.about-box p,
+.about-box ul {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.about-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.about-box ul li {
+  margin-bottom: 15px;
+}
+
+.about-box ul li span {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.portfolio {
+  padding: 80px 9%;
+  background: #1f241f;
+  color: white;
+  text-align: center;
+}
+
+.portfolio h2 {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: cadetblue;
+}
+
+.portfolio p {
+  font-size: 18px;
+  margin-bottom: 50px;
+  color: #ddd;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.portfolio-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.portfolio-box {
+  background: #2a2f2a;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.portfolio-box:hover {
+  transform: translateY(-5px);
+}
+
+.portfolio-box h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: cadetblue;
+}
+
+.portfolio-box .category {
+  font-size: 14px;
+  color: #aaa;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.portfolio-box p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+.portfolio-box h4 {
+  font-size: 16px;
+  margin: 10px 0;
+  color: cadetblue;
+}
+
+.tech-list,
+.feature-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 15px;
+}
+
+.tech-list li,
+.feature-list li {
+  font-size: 14px;
+  margin-bottom: 6px;
+  padding-left: 18px;
+  position: relative;
+  color: #ccc;
+}
+
+.tech-list li::before,
+.feature-list li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: cadetblue;
+}
+
+.portfolio-links {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.portfolio-links .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.skills {
+  padding: 80px 9%;
+  background: #1f241f;
+  color: white;
+  text-align: center;
+}
+
+.skills h2 {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: cadetblue;
+}
+
+.skills p {
+  font-size: 18px;
+  margin-bottom: 50px;
+  color: #ddd;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.skill-box {
+  background: #2a2f2a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+  text-align: left;
+}
+
+.skill-box:hover {
+  transform: translateY(-5px);
+}
+
+.skill-box h3 {
+  font-size: 22px;
+  color: cadetblue;
+  margin-bottom: 15px;
+}
+
+.skill-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.skill-box ul li {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #ddd;
+  padding-left: 15px;
+  position: relative;
+}
+
+.skill-box ul li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: cadetblue;
+}
+
+
+.contact {
+  padding: 80px 9%;
+  background: #1f241f;
+  color: white;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 40px;
+  color: cadetblue;
+  margin-bottom: 15px;
+}
+
+.contact p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: #ddd;
+}
+
+.contact-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 280px;
+  text-align: left;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.info-item i {
+  font-size: 24px;
+  color: cadetblue;
+}
+
+.info-item a {
+  color: #ddd;
+  transition: color 0.3s;
+}
+
+.info-item a:hover {
+  color: cadetblue;
+}
+
+.contact-form {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px 15px;
+  border: 2px solid cadetblue;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  resize: none;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #aaa;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: white;
+}
+
+.contact-form .btn {
+  align-self: flex-start;
+}
+
