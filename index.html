@@ -409,9 +409,25 @@
     <script>
         const menuToggle = document.querySelector(".menu-toggle");
         const navMenu = document.querySelector(".navbar ul");
+        const navLinks = document.querySelectorAll(".navbar ul li a");
 
+        // Toggle hamburger menu
         menuToggle.addEventListener("click", () => {
             navMenu.classList.toggle("active");
+        });
+
+        // Close menu when clicking on a navigation link
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove("active");
+            }
         });
     </script>
 
