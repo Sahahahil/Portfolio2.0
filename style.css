@@ -8,12 +8,20 @@
 }
 
 @media (max-width: 768px) {
+  .menu-toggle {
+    display: block;        /* show hamburger */
+    cursor: pointer;
+    font-size: 2rem;
+    color: white;
+    z-index: 101;          /* keep above menu */
+  }
+
   .navbar ul {
-    display: none;
+    display: none;         /* completely hide by default */
     flex-direction: column;
     background: #1f241f;
     position: absolute;
-    top: 70px;
+    top: 70px;             /* just below navbar */
     right: 9%;
     width: 200px;
     border-radius: 8px;
@@ -21,7 +29,7 @@
   }
 
   .navbar ul.active {
-    display: flex;
+    display: flex;         /* show only after toggle */
   }
 }
 
