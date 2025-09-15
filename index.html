@@ -13,6 +13,7 @@
 <body>
     <nav class="navbar">
         <a href="#" class="logo">Portforlio.</a>
+        <div class="menu-toggle">&#9776;</div> <!-- Hamburger -->
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -59,7 +60,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- About Me Section -->
     <section class="about" id="about">
@@ -405,6 +405,15 @@
             
         </div>
     </section>
+
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navMenu = document.querySelector(".navbar ul");
+
+        menuToggle.addEventListener("click", () => {
+            navMenu.classList.toggle("active");
+        });
+    </script>
 
 
 </body>
