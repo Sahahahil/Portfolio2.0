@@ -319,12 +319,24 @@ a {
         opacity: 1;
     }
 }
-.navbar .logo {
+/* .navbar .logo {
     font-size: 30px;
     font-weight: 700;
     color: white;
     z-index: 201;
+} */
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  font-size: 0; /* hides text spacing since it's replaced by image */
 }
+
+.navbar .logo img {
+  height: 100px;   /* adjust to your preferred size */
+  width: auto;    /* keep aspect ratio */
+}
+
 
 /* Hide inline ul since off-screen menu replaces it */
 .navbar ul {
