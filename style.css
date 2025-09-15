@@ -196,6 +196,7 @@ a {
     gap: 50px;
     min-height: 100vh;
     padding: 60px 9% 0;
+    background: #1f241f;
     color: white;
     visibility: hidden;
     opacity: 0;
