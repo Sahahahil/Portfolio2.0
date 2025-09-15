@@ -8,12 +8,24 @@
 }
 
 @media (max-width: 768px) {
+    .navbar ul {
+        display: none; /* Hide the menu items by default */
+    }
+
+    /* Style the hamburger icon */
+    .menu-toggle {
+        display: block; /* Show the hamburger icon */
+        cursor: pointer;
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
   .home {
     flex-direction: column;
     text-align: center;
   }
 }
-
 
 @media (max-width: 768px) {
   .about h2 {
