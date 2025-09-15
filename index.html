@@ -407,42 +407,39 @@
     </section>
 
     <script>
-        const menuToggle = document.querySelector(".menu-toggle");
-        const navMenu = document.querySelector(".navbar ul");
-        const navLinks = document.querySelectorAll(".navbar ul li a");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector(".navbar ul");
+    const navLinks = document.querySelectorAll(".navbar ul li a");
 
-        // Ensure menu starts hidden on mobile
-        if (window.innerWidth <= 768) {
+    // Toggle menu on hamburger click
+    menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle("active");
+    });
+
+    // Close menu when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
             navMenu.classList.remove("active");
         }
+    });
 
-        // Toggle hamburger menu
-        menuToggle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            navMenu.classList.toggle("active");
-            console.log("Menu toggled:", navMenu.classList.contains("active"));
-        });
-
-        // Close menu when clicking on a navigation link
-        navLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                navMenu.classList.remove("active");
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener("click", (e) => {
-            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove("active");
-            }
-        });
-
-        // Handle window resize
-        window.addEventListener("resize", () => {
-            if (window.innerWidth > 768) {
-                navMenu.classList.remove("active");
-            }
-        });
+    // Ensure correct state on resize
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 768) {
+            navMenu.classList.remove("active"); // reset hidden state
+            navMenu.style.display = "flex"; // ✅ always visible on desktop
+        } else {
+            navMenu.style.display = ""; // back to CSS-controlled (hidden by default)
+        }
+    });
     </script>
 
 </body>
