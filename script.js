@@ -221,6 +221,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Profile image pointer parallax (subtle 3D tilt + translate)
+    (function profileParallax() {
+        const imgBox = document.querySelector('.home-img .img-box');
+        const img = document.querySelector('.home-img .img-box .img-item img');
+
+        // Respect user preferences and small screens
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+        const largeScreen = window.innerWidth >= 768;
+
+        if (!imgBox || !img || prefersReduced || !finePointer || !largeScreen) return;
+
+        let raf = null;
+        let lastEvent = null;
+
+        function onPointerMove(e) {
+            lastEvent = e;
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                const rect = imgBox.getBoundingClientRect();
+                const x = (lastEvent.clientX - rect.left) / rect.width; // 0..1
+                const y = (lastEvent.clientY - rect.top) / rect.height;
+
+                // small ranges for subtle effect
+                const rotateY = (x - 0.5) * 6; // deg
+                const rotateX = (0.5 - y) * 6; // deg
+                const translateX = (x - 0.5) * 8; // px
+                const translateY = (y - 0.5) * 8; // px
+
+                // Compose transform: include the floating baseline translateY from CSS by reducing magnitude
+                img.style.transform = `translateY(${ -8 + translateY }px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px) scale(1.02)`;
+                raf = null;
+            });
+        }
+
+        function resetTransform() {
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+            img.style.transform = ''; // let CSS hover/animation take over
+        }
+
+        imgBox.addEventListener('pointermove', onPointerMove);
+        imgBox.addEventListener('pointerleave', resetTransform);
+        window.addEventListener('resize', function() {
+            // If screen becomes small, remove listeners
+            if (window.innerWidth < 768) {
+                imgBox.removeEventListener('pointermove', onPointerMove);
+                imgBox.removeEventListener('pointerleave', resetTransform);
+            }
+        });
+    })();
+
     // Portfolio links tracking
     const portfolioLinks = document.querySelectorAll('.portfolio-links a');
     portfolioLinks.forEach(link => {
@@ -266,6 +318,81 @@ document.addEventListener('DOMContentLoaded', function() {
             // Toggle behavior
             btn.addEventListener('click', function() {
                 const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+                // Close other portfolio boxes (accordion behavior) so only one opens at a time
+                boxes.forEach(otherBox => {
+                    if (otherBox === box) return;
+                    const otherBtn = otherBox.querySelector('.project-toggle');
+                    const otherDetails = otherBox.querySelector('.project-details');
+                    if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+                    if (otherDetails) {
+                        otherDetails.hidden = true;
+                        otherDetails.setAttribute('aria-hidden', 'true');
+                    }
+                    otherBox.classList.remove('open');
+                });
+
+                // Toggle this box
+                btn.setAttribute('aria-expanded', String(!isOpen));
+                if (isOpen) {
+                    details.hidden = true;
+                    details.setAttribute('aria-hidden', 'true');
+                    box.classList.remove('open');
+                } else {
+                    details.hidden = false;
+                    details.setAttribute('aria-hidden', 'false');
+                    box.classList.add('open');
+                }
+            });
+        });
+    })();
+
+    // Transform certification boxes similarly: title becomes a toggle and details hidden until clicked
+    (function transformCertBoxes() {
+        const boxes = document.querySelectorAll('.cert-box');
+        boxes.forEach((box, idx) => {
+            const titleEl = box.querySelector('h3');
+            if (!titleEl) return;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'cert-toggle';
+            btn.setAttribute('aria-expanded', 'false');
+            const detailsId = `cert-details-${idx}`;
+            btn.setAttribute('aria-controls', detailsId);
+            btn.textContent = titleEl.textContent;
+
+            box.replaceChild(btn, titleEl);
+
+            const details = document.createElement('div');
+            details.className = 'cert-details';
+            details.id = detailsId;
+            details.hidden = true;
+            details.setAttribute('aria-hidden', 'true');
+
+            // Move remaining children (span, p, etc.) into details
+            while (btn.nextSibling) {
+                details.appendChild(btn.nextSibling);
+            }
+
+            box.appendChild(details);
+
+            btn.addEventListener('click', function() {
+                const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+                // Close other certification boxes (accordion behavior)
+                boxes.forEach(otherBox => {
+                    if (otherBox === box) return;
+                    const otherBtn = otherBox.querySelector('.cert-toggle');
+                    const otherDetails = otherBox.querySelector('.cert-details');
+                    if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+                    if (otherDetails) {
+                        otherDetails.hidden = true;
+                        otherDetails.setAttribute('aria-hidden', 'true');
+                    }
+                    otherBox.classList.remove('open');
+                });
+
                 btn.setAttribute('aria-expanded', String(!isOpen));
                 if (isOpen) {
                     details.hidden = true;

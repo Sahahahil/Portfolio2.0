@@ -426,7 +426,24 @@ a {
     height: 100%;
     object-fit: cover;
     mix-blend-mode: lighten;
+    transform-origin: center;
+    will-change: transform, filter;
+    transition: transform 320ms cubic-bezier(.2,.9,.2,1), filter 320ms ease;
+    /* gentle floating animation */
+    animation: float-y 6s ease-in-out infinite;
 
+
+/* subtle hover/tilt effect when user hovers the image */
+.home-img .img-box:hover .img-item img {
+    transform: translateY(-8px) rotate(-2deg) scale(1.02);
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
+}
+
+@keyframes float-y {
+    0% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-8px) rotate(-1deg) scale(1.01); }
+    100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
 /* Portfolio toggle styles */
 }
 
@@ -470,6 +487,46 @@ a {
 .portfolio-box.open {
     box-shadow: 0 6px 30px rgba(0,0,0,0.6);
     transform: translateY(-3px);
+}
+
+/* Certifications toggle styles - reuse similar styling as portfolio toggles */
+.cert-toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #fff;
+    border: none;
+    padding: 8px 10px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.cert-toggle:focus {
+    outline: 3px solid rgba(95,158,160,0.25);
+    outline-offset: 3px;
+}
+
+.cert-toggle[aria-expanded="true"] {
+    color: cadetblue;
+}
+
+.cert-details {
+    margin-top: 8px;
+    color: #dcdcdc;
+    transition: max-height 0.28s ease, opacity 0.2s ease;
+    overflow: hidden;
+}
+
+.cert-details[hidden] {
+    display: none;
+}
+
+.cert-box.open {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
 }
 
 
@@ -894,6 +951,7 @@ a {
     gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
+    align-items: start;
 }
 
 .cert-box {
