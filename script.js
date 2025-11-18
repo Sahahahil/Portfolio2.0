@@ -188,6 +188,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Transform portfolio boxes: make the title a toggle button and hide details until clicked
+    (function transformPortfolioBoxes() {
+        const boxes = document.querySelectorAll('.portfolio-box');
+        boxes.forEach((box, idx) => {
+            const titleEl = box.querySelector('h3');
+            if (!titleEl) return;
+
+            // Create a button to replace the h3
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'project-toggle';
+            btn.setAttribute('aria-expanded', 'false');
+            const detailsId = `project-details-${idx}`;
+            btn.setAttribute('aria-controls', detailsId);
+            btn.textContent = titleEl.textContent;
+
+            // Replace h3 with button
+            box.replaceChild(btn, titleEl);
+
+            // Create details wrapper and move remaining children into it
+            const details = document.createElement('div');
+            details.className = 'project-details';
+            details.id = detailsId;
+            details.hidden = true;
+            details.setAttribute('aria-hidden', 'true');
+
+            // Move all remaining children of box into details
+            while (btn.nextSibling) {
+                details.appendChild(btn.nextSibling);
+            }
+
+            box.appendChild(details);
+
+            // Toggle behavior
+            btn.addEventListener('click', function() {
+                const isOpen = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', String(!isOpen));
+                if (isOpen) {
+                    details.hidden = true;
+                    details.setAttribute('aria-hidden', 'true');
+                    box.classList.remove('open');
+                } else {
+                    details.hidden = false;
+                    details.setAttribute('aria-hidden', 'false');
+                    box.classList.add('open');
+                }
+            });
+        });
+    })();
+
     // Smooth reveal animations on scroll
     function handleScroll() {
         const elements = document.querySelectorAll('.about-box, .portfolio-box, .skill-box, .cert-box');

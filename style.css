@@ -398,6 +398,50 @@ a {
     height: 100%;
     object-fit: cover;
     mix-blend-mode: lighten;
+
+/* Portfolio toggle styles */
+}
+
+/* Style the project title as a button */
+.project-toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #fff;
+    border: none;
+    padding: 10px 12px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.project-toggle:focus {
+    outline: 3px solid rgba(95,158,160,0.25);
+    outline-offset: 3px;
+}
+
+.project-toggle[aria-expanded="true"] {
+    color: cadetblue;
+}
+
+/* Hidden details */
+.project-details {
+    margin-top: 10px;
+    color: #dcdcdc;
+    transition: max-height 0.28s ease, opacity 0.2s ease;
+    overflow: hidden;
+}
+
+.project-details[hidden] {
+    display: none;
+}
+
+/* Slight visual when box is open */
+.portfolio-box.open {
+    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    transform: translateY(-3px);
 }
 
 
@@ -567,6 +611,7 @@ a {
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    align-items: start;
 }
 
 .portfolio-box {
