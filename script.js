@@ -138,42 +138,74 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(element);
     });
 
-    // Contact form handling
-    const contactForm = document.querySelector('.contact-form');
+    // Contact form handling - EmailJS integration
+    // This requires you to sign up at https://www.emailjs.com/, create a service (Gmail/SMTP) and a template.
+    // Replace the placeholder IDs below (YOUR_USER_ID, YOUR_SERVICE_ID, YOUR_TEMPLATE_ID) with values from EmailJS.
+    const contactForm = document.getElementById('contact-form');
     if (contactForm) {
+        // Initialize EmailJS if loaded
+        if (window.emailjs && typeof window.emailjs.init === 'function') {
+            // Replace with your EmailJS user ID
+            try { emailjs.init('YOUR_USER_ID'); } catch (err) { /* ignore if already initialized */ }
+        }
+
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const nameInput = contactForm.querySelector('input[type="text"]');
-            const emailInput = contactForm.querySelector('input[type="email"]');
-            const messageInput = contactForm.querySelector('textarea');
+
+            const nameInput = contactForm.querySelector('input[name="from_name"]');
+            const emailInput = contactForm.querySelector('input[name="reply_to"]');
+            const messageInput = contactForm.querySelector('textarea[name="message"]');
             const submitBtn = contactForm.querySelector('.btn');
-            
+
             const name = nameInput.value.trim();
             const email = emailInput.value.trim();
             const message = messageInput.value.trim();
-            
+
             if (!name || !email || !message) {
                 alert('Please fill in all fields.');
                 return;
             }
-            
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 alert('Please enter a valid email address.');
                 return;
             }
-            
+
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                alert('Thank you for your message! I\'ll get back to you soon.');
-                contactForm.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
+
+            // If EmailJS is configured, use it to send the form
+            if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
+                // Replace these with your EmailJS values
+                const SERVICE_ID = 'YOUR_SERVICE_ID';
+                const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+                emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, '#contact-form')
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        alert('Thank you for your message! I\'ll get back to you soon.');
+                        contactForm.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }, function(error) {
+                        console.error('FAILED...', error);
+                        alert('Failed to send message. Please try again later or email directly to sahilduwal@gmail.com');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    });
+            } else {
+                // Fallback: open mail client via mailto (best-effort)
+                const mailto = `mailto:sahilduwal@gmail.com?subject=${encodeURIComponent('Portfolio contact from ' + name)}&body=${encodeURIComponent(message + '\n\nFrom: ' + name + ' <' + email + '>')}`;
+                window.location.href = mailto;
+                // restore button state after a short delay
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    contactForm.reset();
+                }, 800);
+            }
         });
     }
 

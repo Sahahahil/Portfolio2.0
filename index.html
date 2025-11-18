@@ -47,7 +47,7 @@
             </h2>
             <h3>Bachelor of Computer Engineering student passionate about AI, data science, computer vision, and exploring innovative technology solutions through hands-on projects.</h3>
             <div class="btn-sci">
-                <a href="#contact" class="btn">Download CV</a>
+                <a href="Resume.pdf" class="btn" download>Download CV</a>
                 <div class="sci">
                     <a href="https://github.com/Sahahahil" target="_blank"><i class='bx bxl-github'></i></a>
                     <a href="https://www.linkedin.com/in/sahil-duwal-b67a85189" target="_blank"><i class='bx bxl-linkedin'></i></a>
@@ -461,14 +461,19 @@
                 </div>
             </div>
 
-            <form class="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" rows="5" required></textarea>
+            <!-- Contact form: name attributes are required for EmailJS/template mapping -->
+            <form id="contact-form" class="contact-form">
+                <input type="text" name="from_name" placeholder="Your Name" required>
+                <input type="email" name="reply_to" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                 <button type="submit" class="btn">Send Message</button>
             </form>
         </div>
     </section>
+
+    <!-- EmailJS SDK (used to send email directly from the client). -->
+    <!-- Sign up at https://www.emailjs.com/, create a service (Gmail or SMTP), create a template, then replace the IDs below in script.js -->
+    <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 
     <script src="script.js"></script>
 </body>
