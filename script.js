@@ -23,6 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        // Close button inside off-screen menu
+        const menuCloseBtn = document.querySelector('.off-screen-menu .menu-close');
+        if (menuCloseBtn) {
+            menuCloseBtn.addEventListener('click', function() {
+                hamMenu.classList.remove('active');
+                offScreenMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
             if (!hamMenu.contains(e.target) && !offScreenMenu.contains(e.target)) {
