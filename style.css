@@ -1269,6 +1269,16 @@ a {
         min-width: 250px;
         min-height: 250px;
     }
+
+    /* Move the image up slightly so it fits fully on shorter mobile screens */
+    .home-img {
+        margin-top: -28px;
+    }
+
+    /* ensure the home container shows the pulled-up image */
+    .home {
+        overflow: visible;
+    }
     
     .about h2,
     .portfolio h2,
@@ -1377,6 +1387,10 @@ a {
         height: 70vw;
         min-width: 200px;
         min-height: 200px;
+    }
+    /* a bit more lift on very small screens */
+    .home-img {
+        margin-top: -42px;
     }
     
     .about h2,
