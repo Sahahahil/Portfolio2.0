@@ -6,6 +6,125 @@ document.addEventListener('DOMContentLoaded', function() {
     const offScreenMenu = document.querySelector('.off-screen-menu');
     const menuLinks = document.querySelectorAll('.off-screen-menu a');
 
+    // Theme toggle: persist and respect system preference
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const rootEl = document.documentElement;
+
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            rootEl.setAttribute('data-theme', 'light');
+            if (themeToggleBtn) themeToggleBtn.textContent = '☀️';
+            if (themeToggleBtn) themeToggleBtn.setAttribute('aria-pressed', 'true');
+        } else {
+            rootEl.removeAttribute('data-theme');
+            if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
+            if (themeToggleBtn) themeToggleBtn.setAttribute('aria-pressed', 'false');
+        }
+    }
+
+    // Resolve initial theme: localStorage -> prefers-color-scheme -> dark (default)
+    (function initTheme() {
+        try {
+            const saved = localStorage.getItem('site-theme');
+            if (saved) {
+                applyTheme(saved);
+                return;
+            }
+
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (prefersLight) {
+                applyTheme('light');
+            } else {
+                applyTheme('dark');
+            }
+        } catch (e) {
+            applyTheme('dark');
+        }
+    })();
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function() {
+            const isLight = rootEl.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+            applyTheme(newTheme);
+            try { localStorage.setItem('site-theme', newTheme); } catch (e) { /* ignore */ }
+        });
+    }
+
+    // Pull-cord interaction: click or drag to toggle theme
+    const pullCord = document.getElementById('pull-cord');
+    if (pullCord) {
+        let pointerDown = false;
+        let startY = 0;
+        let moved = false;
+        const threshold = 18; // px to consider as a pull
+
+        function toggleFromPull() {
+            const isLight = rootEl.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+            applyTheme(newTheme);
+            try { localStorage.setItem('site-theme', newTheme); } catch (e) {}
+            // briefly show pulled state
+            pullCord.classList.add('pulled');
+            setTimeout(() => pullCord.classList.remove('pulled'), 420);
+        }
+
+        // click/tap toggles as well
+        pullCord.addEventListener('click', function(e) {
+            // avoid double-handling when drag used
+            if (!moved) toggleFromPull();
+            moved = false;
+        });
+
+        // Pointer drag support for a tactile pull
+        pullCord.addEventListener('pointerdown', function(e) {
+            pointerDown = true;
+            startY = e.clientY;
+            pullCord.setPointerCapture(e.pointerId);
+        });
+
+        pullCord.addEventListener('pointermove', function(e) {
+            if (!pointerDown) return;
+            const delta = e.clientY - startY;
+            if (delta > 4) {
+                moved = true;
+            }
+            // visual feedback while dragging
+            const knob = pullCord.querySelector('.cord-knob');
+            const line = pullCord.querySelector('.cord-line');
+            const translate = Math.min(Math.max(delta, 0), 28);
+            if (knob) knob.style.transform = `translateY(${translate}px)`;
+            if (line) line.style.height = `${28 + translate}px`;
+        });
+
+        pullCord.addEventListener('pointerup', function(e) {
+            pointerDown = false;
+            try { pullCord.releasePointerCapture(e.pointerId); } catch (err) {}
+            const delta = e.clientY - startY;
+            // reset visuals
+            const knob = pullCord.querySelector('.cord-knob');
+            const line = pullCord.querySelector('.cord-line');
+            if (knob) knob.style.transform = '';
+            if (line) line.style.height = '';
+
+            if (delta >= threshold) {
+                toggleFromPull();
+            } else {
+                // small nudge animation for click feedback
+                pullCord.classList.add('pulled');
+                setTimeout(() => pullCord.classList.remove('pulled'), 260);
+            }
+        });
+
+        // keyboard accessibility: Enter/Space toggles
+        pullCord.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleFromPull();
+            }
+        });
+    }
+
     // Toggle mobile menu
     if (hamMenu && offScreenMenu) {
         hamMenu.addEventListener('click', function() {

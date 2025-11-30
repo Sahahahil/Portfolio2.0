@@ -1,3 +1,153 @@
+[data-theme="light"] .about-box ul li span,
+[data-theme="light"] .about-box span,
+[data-theme="light"] .about-box .subtitle,
+[data-theme="light"] .about-box .role {
+    color: #2b3a43 !important;
+}
+
+[data-theme="light"] .about-box ul li strong {
+    color: #0b1220 !important;
+}
+[data-theme="light"] .home-info h1 {
+    background: linear-gradient(45deg, #0b1220, cadetblue);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .home-info h2,
+[data-theme="light"] .home-info h3,
+[data-theme="light"] .portfolio p,
+[data-theme="light"] .about > p,
+[data-theme="light"] .portfolio-box p,
+[data-theme="light"] .skill-box p,
+[data-theme="light"] .cert-box p,
+[data-theme="light"] .contact p,
+[data-theme="light"] .info-item,
+[data-theme="light"] .info-item a,
+[data-theme="light"] .portfolio-box .category,
+[data-theme="light"] .tech-list li,
+[data-theme="light"] .feature-list li {
+    color: #24303a;
+}
+
+[data-theme="light"] .home-info .btn-sci .sci a {
+    color: cadetblue;
+    border-color: rgba(10,20,30,0.06);
+}
+
+/* Make the circular image background match the site (transparent on light theme) */
+[data-theme="light"] .home-img .img-box .img-item {
+    background-color: transparent;
+    border: .1px solid rgba(10,20,30,0.06);
+}
+
+[data-theme="light"] .home-img .img-box::before,
+[data-theme="light"] .home-img .img-box::after {
+    /* hide the interior "light stream" conic gradients in light mode
+       and show only a stronger, subtle border for good visibility */
+    filter: none;
+    opacity: 1;
+    background: transparent !important;
+    border: 6px solid rgba(11,18,20,0.12) !important;
+    border-radius: 50%;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .home-img .img-box .ring {
+    /* inner decorative rings: slightly thinner than outer rings */
+    filter: none;
+    opacity: 1;
+    background: transparent !important;
+    border: 4px solid rgba(11,18,20,0.10) !important;
+    border-radius: 50%;
+    box-shadow: none !important;
+}
+
+/* Info boxes and links in light theme */
+[data-theme="light"] .about-box,
+[data-theme="light"] .portfolio-box,
+[data-theme="light"] .skill-box,
+[data-theme="light"] .cert-box {
+    color: #0b1220;
+}
+
+/* Brighten Contact section for light theme */
+[data-theme="light"] .contact {
+    background: transparent;
+    color: #0b1220;
+}
+
+[data-theme="light"] .contact-container {
+    background: transparent;
+}
+
+[data-theme="light"] .contact .info-item {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(10,20,30,0.06);
+}
+
+[data-theme="light"] .contact .info-item i {
+    color: cadetblue;
+}
+
+[data-theme="light"] .contact-form input,
+[data-theme="light"] .contact-form textarea {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(10,20,30,0.08);
+    box-shadow: none;
+}
+
+[data-theme="light"] .contact-form input::placeholder,
+[data-theme="light"] .contact-form textarea::placeholder {
+    color: #6b7780;
+}
+
+[data-theme="light"] .contact-form .btn {
+    background-color: cadetblue;
+    color: #ffffff;
+    border-color: cadetblue;
+}
+
+[data-theme="light"] .contact-form .btn:focus {
+    outline: 3px solid rgba(95,158,160,0.15);
+    outline-offset: 2px;
+}
+
+/* Make all interactive/title text very readable in light mode */
+[data-theme="light"] a,
+[data-theme="light"] p,
+[data-theme="light"] li,
+[data-theme="light"] span,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] .project-toggle,
+[data-theme="light"] .cert-toggle,
+[data-theme="light"] .portfolio-box h3,
+[data-theme="light"] .cert-box h3,
+[data-theme="light"] .portfolio-box .category {
+    color: #0b1220 !important;
+}
+
+[data-theme="light"] .project-toggle {
+    background: transparent;
+    color: #0b1220 !important;
+    font-weight: 700;
+}
+
+[data-theme="light"] .project-toggle[aria-expanded="true"],
+[data-theme="light"] .cert-toggle[aria-expanded="true"] {
+    color: cadetblue !important;
+}
+
+[data-theme="light"] .project-toggle:focus,
+[data-theme="light"] .cert-toggle:focus {
+    outline: 3px solid rgba(10,20,30,0.08);
+    outline-offset: 3px;
+}
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 * {
@@ -53,6 +203,164 @@ a {
     display: flex;
     align-items: center;
     transition: transform 0.3s ease;
+}
+
+/* Theme toggle button in navbar */
+.theme-toggle {
+    margin-left: 14px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.06);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.theme-toggle:focus { outline: 3px solid rgba(95,158,160,0.2); outline-offset: 2px; }
+
+/* Light theme overrides (applied when [data-theme="light"] on <html>) */
+[data-theme="light"] body {
+    background: #f5f7fa;
+    color: #0b1220;
+}
+
+[data-theme="light"] .navbar {
+    /* fully opaque white navbar in light theme */
+    background: #ffffff;
+    color: #0b1220;
+    backdrop-filter: none;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.06);
+}
+
+/* Ensure scrolled state is also fully white (override any rgba rules) */
+[data-theme="light"] .navbar.scrolled {
+    background: #ffffff !important;
+    box-shadow: 0 3px 18px rgba(15,23,42,0.08);
+}
+
+[data-theme="light"] .navbar .logo { color: #0b1220; }
+
+[data-theme="light"] .off-screen-menu {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f3f6 100%);
+}
+
+/* Ensure the off-screen menu close button is visible on white navbar */
+[data-theme="light"] .off-screen-menu .menu-close {
+    background: transparent;
+    border: 2px solid rgba(10,20,30,0.12);
+    color: #0b1220;
+    display: inline-flex;
+}
+
+[data-theme="light"] .off-screen-menu .menu-close:focus {
+    outline: 3px solid rgba(10,20,30,0.12);
+    outline-offset: 3px;
+}
+
+[data-theme="light"] .home {
+    background: linear-gradient(135deg,#f5f7fa 0%, #eef3f6 100%);
+    color: #0b1220;
+}
+
+[data-theme="light"] .about,
+[data-theme="light"] .portfolio,
+[data-theme="light"] .skills,
+[data-theme="light"] .contact,
+[data-theme="light"] .certifications {
+    background: transparent;
+    color: #0b1220;
+}
+
+[data-theme="light"] .about-box,
+[data-theme="light"] .portfolio-box,
+[data-theme="light"] .skill-box,
+[data-theme="light"] .cert-box {
+    background: #ffffff;
+    color: #0b1220;
+    border: 1px solid rgba(10,20,30,0.06);
+    box-shadow: 0 8px 30px rgba(15,23,42,0.04);
+}
+
+[data-theme="light"] .btn {
+    background-color: cadetblue;
+    color: white;
+    border-color: cadetblue;
+}
+
+[data-theme="light"] .home-info h1,
+[data-theme="light"] .portfolio h2,
+[data-theme="light"] .about h2 { color: #0b1220; }
+
+[data-theme="light"] .home-img .img-box::before,
+[data-theme="light"] .home-img .img-box::after,
+[data-theme="light"] .home-img .img-box .ring { filter: none; }
+
+/* Toggle button appearance when light */
+[data-theme="light"] .theme-toggle { background: #fff; color: #0b1220; border-color: rgba(10,20,30,0.06); }
+
+/* Pull-cord styles */
+.pull-cord {
+    position: absolute;
+    right: 110px; /* sits left of hamburger */
+    top: 12px;
+    width: 24px;
+    height: 44px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 210;
+}
+
+.pull-cord .cord-line {
+    position: absolute;
+    top: 6px;
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.3));
+    border-radius: 2px;
+    transition: background 200ms ease, height 200ms ease;
+}
+
+.pull-cord .cord-knob {
+    position: absolute;
+    top: 34px;
+    width: 18px;
+    height: 18px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    transform: translateY(0);
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), background 200ms ease;
+}
+
+/* Pulled state */
+.pull-cord.pulled .cord-knob { transform: translateY(22px); }
+.pull-cord.pulled .cord-line { height: 48px; }
+
+/* Light theme variations (so cord is visible on white navbar) */
+[data-theme="light"] .pull-cord .cord-line {
+    background: linear-gradient(180deg, rgba(10,20,30,0.12), rgba(10,20,30,0.28));
+}
+
+[data-theme="light"] .pull-cord .cord-knob {
+    background: #0b1220;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Make sure pull-cord repositions on small screens (avoid overlapping with menu) */
+@media (max-width: 480px) {
+    .pull-cord { right: 92px; top: 10px; }
+}
+
+@media (max-width: 360px) {
+    .pull-cord { right: 76px; }
 }
 
 .navbar .logo:hover {
