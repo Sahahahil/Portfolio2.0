@@ -216,6 +216,7 @@ a {
     font-weight: 700;
     margin-bottom: 10px;
     background: linear-gradient(45deg, #fff, cadetblue);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: fadeInUp 1s ease 0.5s both;
@@ -385,22 +386,83 @@ a {
 .home-img .img-box::after {
     content: '';
     position: absolute;
-    width: 700px;
-    height: 700px;
-    background: conic-gradient(cadetblue, transparent, cadetblue);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center center;
     border-radius: 50%;
-    transform: rotate(0deg);
-    animation: rotate-border 8s linear infinite;
-    box-shadow: 0 0 25px rgba(95,158,160,0.6);
-}
-.home-img .img-box::after {
-    animation-delay: -4s;
-    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
 }
 
+/* Outer ring (thinner, slightly larger) */
+.home-img .img-box::before {
+    /* second-outer ring (start at 0deg phase) */
+    width: 720px;
+    height: 720px;
+    background: conic-gradient(from 0deg, rgba(95,158,160,0.95) 0deg, rgba(95,158,160,0.45) 20deg, rgba(95,158,160,0.12) 60deg, transparent 100%);
+    box-shadow: 0 0 24px rgba(95,158,160,0.22);
+    animation: rotate-border 8s linear infinite;
+    animation-direction: normal;
+}
+
+/* Inner ring (slightly smaller) with different phase for depth */
+.home-img .img-box::after {
+    /* innermost ring (start at 180deg phase) */
+    width: 640px;
+    height: 640px;
+    background: conic-gradient(from 180deg, rgba(95,158,160,0.8) 0deg, rgba(95,158,160,0.35) 18deg, rgba(95,158,160,0.08) 55deg, transparent 100%);
+    box-shadow: 0 0 14px rgba(95,158,160,0.16);
+    opacity: 0.9;
+    animation: rotate-border 8s linear infinite;
+    animation-direction: normal;
+}
+
+/* Additional ring elements inserted into the HTML for richer multi-ring effect */
+.home-img .img-box .ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center center;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    /* unified duration so all rings rotate in the same time frame */
+    animation: rotate-border 8s linear infinite;
+    animation-direction: normal;
+}
+
+.home-img .img-box .ring.ring-1 {
+    /* outermost ring (start at 90deg phase) */
+    width: 760px;
+    height: 760px;
+    background: conic-gradient(from 90deg, rgba(95,158,160,0.85) 0deg, rgba(95,158,160,0.4) 22deg, rgba(95,158,160,0.08) 55deg, transparent 100%);
+    box-shadow: 0 0 26px rgba(95,158,160,0.14);
+    animation-duration: 8s;
+    animation-direction: normal;
+}
+
+.home-img .img-box .ring.ring-2 {
+    /* third ring (start at 270deg phase) */
+    width: 680px;
+    height: 680px;
+    background: conic-gradient(from 270deg, rgba(95,158,160,0.7) 0deg, rgba(95,158,160,0.35) 20deg, rgba(95,158,160,0.06) 50deg, transparent 100%);
+    box-shadow: 0 0 18px rgba(95,158,160,0.12);
+    animation-duration: 8s;
+    animation-direction: normal;
+    opacity: 0.95;
+}
+
+/* Put the img-item above decorative rings */
+.home-img .img-box .img-item { z-index: 2; }
+
 @keyframes rotate-border {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
     100% {
-        transform: rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
@@ -1360,4 +1422,9 @@ a {
 .contact-form textarea:focus {
     outline: 2px solid cadetblue;
     outline-offset: 2px;
+}
+
+/* Fade-in the whole image box like other home elements */
+.home-img .img-box {
+    animation: fadeInUp 1s ease 0.6s both;
 }
