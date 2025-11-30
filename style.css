@@ -1270,9 +1270,9 @@ a {
         min-height: 250px;
     }
 
-    /* Move the image up slightly so it fits fully on shorter mobile screens */
+    /* Move the image up so it fits fully on shorter mobile screens */
     .home-img {
-        margin-top: -28px;
+        margin-top: -18vh;
     }
 
     /* ensure the home container shows the pulled-up image */
@@ -1390,7 +1390,7 @@ a {
     }
     /* a bit more lift on very small screens */
     .home-img {
-        margin-top: -42px;
+        margin-top: -26vh;
     }
     
     .about h2,
