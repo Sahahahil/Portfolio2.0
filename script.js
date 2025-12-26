@@ -267,19 +267,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        // EmailJS Configuration - Replace these with your actual values
+        // EmailJS Configuration - Your actual credentials
         const EMAILJS_PUBLIC_KEY = 'W7TeFH4Ha4f7e5QZw'; // From EmailJS Account settings
         const EMAILJS_SERVICE_ID = 'service_1w3me34'; // Gmail service ID from EmailJS
         const EMAILJS_TEMPLATE_ID = 'template_9h7btvk'; // Template ID from EmailJS
 
         // Initialize EmailJS with your public key
-        if (window.emailjs && typeof window.emailjs.init === 'function') {
-            try { 
-                emailjs.init(EMAILJS_PUBLIC_KEY); 
-            } catch (err) { 
-                console.error('EmailJS initialization error:', err);
+        (function initEmailJS() {
+            if (typeof emailjs !== 'undefined') {
+                try { 
+                    emailjs.init(EMAILJS_PUBLIC_KEY);
+                    console.log('EmailJS initialized successfully');
+                } catch (err) { 
+                    console.error('EmailJS initialization error:', err);
+                }
+            } else {
+                console.warn('EmailJS library not loaded yet');
             }
-        }
+        })();
 
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -310,13 +315,8 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Check if EmailJS is properly configured
-            const isConfigured = EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && 
-                                EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID' && 
-                                EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID';
-
-            if (window.emailjs && typeof window.emailjs.sendForm === 'function' && isConfigured) {
-                // Send email directly via Gmail through EmailJS
+            // Send email directly via Gmail through EmailJS
+            if (typeof emailjs !== 'undefined' && typeof emailjs.sendForm === 'function') {
                 emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, '#contact-form')
                     .then(function(response) {
                         console.log('Email sent successfully!', response.status, response.text);
@@ -324,15 +324,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         contactForm.reset();
                         submitBtn.textContent = originalText;
                         submitBtn.disabled = false;
-                    }, function(error) {
+                    })
+                    .catch(function(error) {
                         console.error('Failed to send email:', error);
-                        alert('❌ Failed to send message. Please email me directly at sahilduwal@gmail.com');
+                        alert('❌ Failed to send message. Please try again or email me directly at sahilduwal@gmail.com');
                         submitBtn.textContent = originalText;
                         submitBtn.disabled = false;
                     });
             } else {
-                // EmailJS not configured - show setup message
-                alert('⚠️ Email service not configured yet.\n\nTo enable direct Gmail sending:\n1. Visit https://www.emailjs.com/\n2. Connect your Gmail account\n3. Update the credentials in script.js\n\nFor now, please email me directly at: sahilduwal@gmail.com');
+                // EmailJS not loaded properly
+                console.error('EmailJS library not available');
+                alert('❌ Email service is currently unavailable. Please email me directly at sahilduwal@gmail.com');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
