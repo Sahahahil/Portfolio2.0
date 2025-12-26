@@ -257,15 +257,28 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(element);
     });
 
-    // Contact form handling - EmailJS integration
-    // This requires you to sign up at https://www.emailjs.com/, create a service (Gmail/SMTP) and a template.
-    // Replace the placeholder IDs below (YOUR_USER_ID, YOUR_SERVICE_ID, YOUR_TEMPLATE_ID) with values from EmailJS.
+    // Contact form handling - EmailJS integration with Gmail
+    // SETUP INSTRUCTIONS:
+    // 1. Go to https://www.emailjs.com/ and create a free account
+    // 2. Add Gmail as your email service (connect your Gmail account)
+    // 3. Create an email template with variables: {{from_name}}, {{reply_to}}, {{message}}
+    // 4. Copy your Public Key (User ID), Service ID, and Template ID
+    // 5. Replace the values below with your actual EmailJS credentials
+    
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        // Initialize EmailJS if loaded
+        // EmailJS Configuration - Replace these with your actual values
+        const EMAILJS_PUBLIC_KEY = 'W7TeFH4Ha4f7e5QZw'; // From EmailJS Account settings
+        const EMAILJS_SERVICE_ID = 'service_1w3me34'; // Gmail service ID from EmailJS
+        const EMAILJS_TEMPLATE_ID = 'template_9h7btvk'; // Template ID from EmailJS
+
+        // Initialize EmailJS with your public key
         if (window.emailjs && typeof window.emailjs.init === 'function') {
-            // Replace with your EmailJS user ID
-            try { emailjs.init('YOUR_USER_ID'); } catch (err) { /* ignore if already initialized */ }
+            try { 
+                emailjs.init(EMAILJS_PUBLIC_KEY); 
+            } catch (err) { 
+                console.error('EmailJS initialization error:', err);
+            }
         }
 
         contactForm.addEventListener('submit', function(e) {
@@ -280,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = emailInput.value.trim();
             const message = messageInput.value.trim();
 
+            // Validation
             if (!name || !email || !message) {
                 alert('Please fill in all fields.');
                 return;
@@ -291,39 +305,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Update button state
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // If EmailJS is configured, use it to send the form
-            if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
-                // Replace these with your EmailJS values
-                const SERVICE_ID = 'YOUR_SERVICE_ID';
-                const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+            // Check if EmailJS is properly configured
+            const isConfigured = EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && 
+                                EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID' && 
+                                EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID';
 
-                emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, '#contact-form')
+            if (window.emailjs && typeof window.emailjs.sendForm === 'function' && isConfigured) {
+                // Send email directly via Gmail through EmailJS
+                emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, '#contact-form')
                     .then(function(response) {
-                        console.log('SUCCESS!', response.status, response.text);
-                        alert('Thank you for your message! I\'ll get back to you soon.');
+                        console.log('Email sent successfully!', response.status, response.text);
+                        alert('✅ Thank you for your message! I\'ll get back to you soon via Gmail.');
                         contactForm.reset();
                         submitBtn.textContent = originalText;
                         submitBtn.disabled = false;
                     }, function(error) {
-                        console.error('FAILED...', error);
-                        alert('Failed to send message. Please try again later or email directly to sahilduwal@gmail.com');
+                        console.error('Failed to send email:', error);
+                        alert('❌ Failed to send message. Please email me directly at sahilduwal@gmail.com');
                         submitBtn.textContent = originalText;
                         submitBtn.disabled = false;
                     });
             } else {
-                // Fallback: open mail client via mailto (best-effort)
-                const mailto = `mailto:sahilduwal@gmail.com?subject=${encodeURIComponent('Portfolio contact from ' + name)}&body=${encodeURIComponent(message + '\n\nFrom: ' + name + ' <' + email + '>')}`;
-                window.location.href = mailto;
-                // restore button state after a short delay
-                setTimeout(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                    contactForm.reset();
-                }, 800);
+                // EmailJS not configured - show setup message
+                alert('⚠️ Email service not configured yet.\n\nTo enable direct Gmail sending:\n1. Visit https://www.emailjs.com/\n2. Connect your Gmail account\n3. Update the credentials in script.js\n\nFor now, please email me directly at: sahilduwal@gmail.com');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         });
     }
