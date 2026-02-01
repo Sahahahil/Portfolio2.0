@@ -2114,9 +2114,11 @@ p {
     max-width: 700px;
     height: auto;
     max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     z-index: 1000;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), var(--glow-cyan);
-    animation: data-expansion 0.7s var(--ease-spring);
+    animation: data-expansion 0.5s var(--ease-smooth);
 }
 
 .portfolio-box.open::after {
@@ -2772,6 +2774,22 @@ p {
 
     /* ensure the home container shows the pulled-up image */
     .home {
+        overflow: visible;
+    }
+
+    /* Mobile: Make expanded cards properly scrollable */
+    .portfolio-box.open,
+    .cert-box.open {
+        width: 95vw;
+        max-height: 90vh;
+        padding: 20px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .portfolio-box.open .project-details,
+    .cert-box.open .cert-details {
+        max-height: none;
         overflow: visible;
     }
     
