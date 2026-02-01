@@ -450,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Toggle behavior
             btn.addEventListener('click', function() {
                 const isOpen = btn.getAttribute('aria-expanded') === 'true';
+                const body = document.body;
 
                 // Close other portfolio boxes (accordion behavior) so only one opens at a time
                 boxes.forEach(otherBox => {
@@ -470,10 +471,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     details.hidden = true;
                     details.setAttribute('aria-hidden', 'true');
                     box.classList.remove('open');
+                    body.classList.remove('card-expanded');
                 } else {
                     details.hidden = false;
                     details.setAttribute('aria-hidden', 'false');
                     box.classList.add('open');
+                    body.classList.add('card-expanded');
                 }
             });
         });
@@ -606,6 +609,99 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 100);
     }
+
+    // Backdrop overlay click to close expanded cards
+    document.addEventListener('click', function(e) {
+        const body = document.body;
+        // Check if body has the card-expanded class and click is on the backdrop overlay
+        if (body.classList.contains('card-expanded') && e.target === body) {
+            // Close all open portfolio boxes
+            const boxes = document.querySelectorAll('.portfolio-box.open');
+            boxes.forEach(box => {
+                const btn = box.querySelector('.project-toggle');
+                if (btn) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    const details = box.querySelector('.project-details');
+                    if (details) {
+                        details.hidden = true;
+                        details.setAttribute('aria-hidden', 'true');
+                    }
+                }
+                box.classList.remove('open');
+            });
+            body.classList.remove('card-expanded');
+        }
+    });
+
+    // Tilt effect for cards (parallax 3D)
+    const tiltTargets = document.querySelectorAll(
+        '.portfolio-box, .skill-card, .about-box, .exp-card, .edu-card, .cert-box, .skill-box, .contact .info-item'
+    );
+    const maxTilt = 6;
+
+    tiltTargets.forEach(el => {
+        el.classList.add('tilt-card');
+        let frame;
+
+        const handleMove = (e) => {
+            if (el.classList.contains('open')) return;
+            const rect = el.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            const tiltX = (y * -maxTilt).toFixed(2);
+            const tiltY = (x * maxTilt).toFixed(2);
+
+            if (frame) cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+                el.style.setProperty('--tilt-x', `${tiltX}deg`);
+                el.style.setProperty('--tilt-y', `${tiltY}deg`);
+            });
+        };
+
+        const resetTilt = () => {
+            el.style.setProperty('--tilt-x', '0deg');
+            el.style.setProperty('--tilt-y', '0deg');
+        };
+
+        el.addEventListener('mousemove', handleMove);
+        el.addEventListener('mouseleave', resetTilt);
+    });
+
+    // Magnetic cursor effect for primary interactive elements
+    const magneticTargets = document.querySelectorAll('.btn, .project-toggle, .portfolio-links a');
+    const magnetStrength = 0.35;
+    const magnetRadius = 120;
+
+    magneticTargets.forEach(el => {
+        el.classList.add('magnetic');
+        let frame;
+
+        const handleMove = (e) => {
+            const rect = el.getBoundingClientRect();
+            const dx = e.clientX - rect.left - rect.width / 2;
+            const dy = e.clientY - rect.top - rect.height / 2;
+            const distance = Math.hypot(dx, dy);
+
+            if (distance < magnetRadius) {
+                const mx = (dx * magnetStrength).toFixed(2);
+                const my = (dy * magnetStrength).toFixed(2);
+
+                if (frame) cancelAnimationFrame(frame);
+                frame = requestAnimationFrame(() => {
+                    el.style.setProperty('--mx', `${mx}px`);
+                    el.style.setProperty('--my', `${my}px`);
+                });
+            }
+        };
+
+        const resetMagnet = () => {
+            el.style.setProperty('--mx', '0px');
+            el.style.setProperty('--my', '0px');
+        };
+
+        el.addEventListener('mousemove', handleMove);
+        el.addEventListener('mouseleave', resetMagnet);
+    });
 });
 
 // Utility debounce

@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sahil Duwal - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -36,9 +39,11 @@
         <button class="menu-close" aria-label="Close menu">×</button>
         <ul>
             <li><a href="#home" data-section="home">Home</a></li>
-            <li><a href="#about" data-section="about">About</a></li>
-            <li><a href="#portfolio" data-section="portfolio">Portfolio</a></li>
+            <li><a href="#about" data-section="about">About me</a></li>
             <li><a href="#skills" data-section="skills">Skills</a></li>
+            <li><a href="#experience" data-section="experience">Experience</a></li>
+            <li><a href="#portfolio" data-section="portfolio">Portfolio</a></li>
+            <li><a href="#education" data-section="education">Education</a></li>
             <li><a href="#certifications" data-section="certifications">Certifications</a></li>
             <li><a href="#contact" data-section="contact">Contact</a></li>
         </ul>
@@ -92,12 +97,97 @@
                 machine learning, and computer vision. From developing deepfake detection systems to building AI-powered assistants, 
                 I focus on creating solutions that address real-world challenges.
                 </p>
-                </p>
             </div>
-            <!-- Experience -->
-            <div class="about-box">
-                <h3>Experience</h3>
-                <div class="experience-grid">
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <h2>My Skills</h2>
+        <p>
+            A comprehensive overview of my technical expertise across various domains including 
+            AI, machine learning, web development, and data science.
+        </p>
+
+        <div class="skills-container">
+            <div class="skill-card">
+                <div class="skill-head">
+                    <span class="skill-icon" aria-hidden="true">{}</span>
+                    <div>
+                        <h3>Programming Languages</h3>
+                        <p class="skill-sub">Fluent, production use</p>
+                    </div>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">HTML</span>
+                    <span class="skill-tag">CSS</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-head">
+                    <span class="skill-icon" aria-hidden="true">¤</span>
+                    <div>
+                        <h3>AI & Machine Learning</h3>
+                        <p class="skill-sub">Modeling, CV, NLP</p>
+                    </div>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">PyTorch</span>
+                    <span class="skill-tag">scikit-learn</span>
+                    <span class="skill-tag">Computer Vision</span>
+                    <span class="skill-tag">Deep Learning</span>
+                    <span class="skill-tag">NLP</span>
+                    <span class="skill-tag">Machine Learning</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-head">
+                    <span class="skill-icon" aria-hidden="true">Σ</span>
+                    <div>
+                        <h3>Data Science & Analytics</h3>
+                        <p class="skill-sub">Analysis & visualization</p>
+                    </div>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">NumPy</span>
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">Matplotlib</span>
+                    <span class="skill-tag">Data Analysis</span>
+                    <span class="skill-tag">Statistical Modeling</span>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-head">
+                    <span class="skill-icon" aria-hidden="true">∞</span>
+                    <div>
+                        <h3>Web Development & Tools</h3>
+                        <p class="skill-sub">APIs, tooling, infra</p>
+                    </div>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">LaTeX</span>
+                    <span class="skill-tag">MySQL</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <h2>Experience</h2>
+        <p>
+            Professional and volunteer roles where I've applied my technical skills and contributed to meaningful projects.
+        </p>
+        <div class="experience-grid">
                     <article class="exp-card">
                         <header>
                             <div class="exp-role">Data Annotation Intern</div>
@@ -139,51 +229,6 @@
                         </ul>
                     </article>
                 </div>
-            </div>
-
-            <!-- Education -->
-            <div class="about-box">
-                <h3>Education</h3>
-                <div class="education-grid">
-                    <article class="edu-card">
-                        <header>
-                            <div class="edu-degree">Bachelor of Computer Engineering</div>
-                            <div class="edu-school">Khwopa College of Engineering</div>
-                            <div class="edu-dates">2021 – Present</div>
-                        </header>
-                        <ul class="edu-bullets">
-                            <li>Focused on AI, machine learning, and software development.</li>
-                            <li>Building projects that merge computer vision and data science.</li>
-                            <li>Engaged in hands-on labs and research-driven coursework.</li>
-                        </ul>
-                    </article>
-
-                    <article class="edu-card">
-                        <header>
-                            <div class="edu-degree">Higher Secondary Level</div>
-                            <div class="edu-school">Khwopa Secondary School</div>
-                            <div class="edu-dates">2019 – 2021</div>
-                        </header>
-                        <ul class="edu-bullets">
-                            <li>Strengthened foundations in mathematics and sciences.</li>
-                            <li>Developed early interest in computing and problem solving.</li>
-                        </ul>
-                    </article>
-
-                    <article class="edu-card">
-                        <header>
-                            <div class="edu-degree">Lower & Secondary Level</div>
-                            <div class="edu-school">Nyatapola Secondary School</div>
-                            <div class="edu-dates">2007 – 2019</div>
-                        </header>
-                        <ul class="edu-bullets">
-                            <li>Built strong academic discipline and teamwork skills.</li>
-                            <li>Nurtured early curiosity for technology and innovation.</li>
-                        </ul>
-                    </article>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Portfolio Section -->
@@ -398,83 +443,49 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <h2>My Skills</h2>
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <h2>Education</h2>
         <p>
-            A comprehensive overview of my technical expertise across various domains including 
-            AI, machine learning, web development, and data science.
+            My academic journey and educational background that shaped my technical foundation.
         </p>
+        <div class="education-grid">
+            <article class="edu-card">
+                <header>
+                    <div class="edu-degree">Bachelor of Computer Engineering</div>
+                    <div class="edu-school">Khwopa College of Engineering</div>
+                    <div class="edu-dates">2021 – Present</div>
+                </header>
+                <ul class="edu-bullets">
+                    <li>Focused on AI, machine learning, and software development.</li>
+                    <li>Building projects that merge computer vision and data science.</li>
+                    <li>Engaged in hands-on labs and research-driven coursework.</li>
+                </ul>
+            </article>
 
-        <div class="skills-container">
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">{}</span>
-                    <div>
-                        <h3>Programming Languages</h3>
-                        <p class="skill-sub">Fluent, production use</p>
-                    </div>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">C</span>
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">HTML</span>
-                    <span class="skill-tag">CSS</span>
-                </div>
-            </div>
+            <article class="edu-card">
+                <header>
+                    <div class="edu-degree">Higher Secondary Level</div>
+                    <div class="edu-school">Khwopa Secondary School</div>
+                    <div class="edu-dates">2019 – 2021</div>
+                </header>
+                <ul class="edu-bullets">
+                    <li>Strengthened foundations in mathematics and sciences.</li>
+                    <li>Developed early interest in computing and problem solving.</li>
+                </ul>
+            </article>
 
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">¤</span>
-                    <div>
-                        <h3>AI & Machine Learning</h3>
-                        <p class="skill-sub">Modeling, CV, NLP</p>
-                    </div>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">PyTorch</span>
-                    <span class="skill-tag">scikit-learn</span>
-                    <span class="skill-tag">Computer Vision</span>
-                    <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">NLP</span>
-                    <span class="skill-tag">Machine Learning</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">Σ</span>
-                    <div>
-                        <h3>Data Science & Analytics</h3>
-                        <p class="skill-sub">Analysis & visualization</p>
-                    </div>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">NumPy</span>
-                    <span class="skill-tag">Pandas</span>
-                    <span class="skill-tag">Matplotlib</span>
-                    <span class="skill-tag">Data Analysis</span>
-                    <span class="skill-tag">Statistical Modeling</span>
-                </div>
-            </div>
-
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">∞</span>
-                    <div>
-                        <h3>Web Development & Tools</h3>
-                        <p class="skill-sub">APIs, tooling, infra</p>
-                    </div>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">FastAPI</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">LaTeX</span>
-                    <span class="skill-tag">MySQL</span>
-                </div>
-            </div>
+            <article class="edu-card">
+                <header>
+                    <div class="edu-degree">Lower & Secondary Level</div>
+                    <div class="edu-school">Nyatapola Secondary School</div>
+                    <div class="edu-dates">2007 – 2019</div>
+                </header>
+                <ul class="edu-bullets">
+                    <li>Built strong academic discipline and teamwork skills.</li>
+                    <li>Nurtured early curiosity for technology and innovation.</li>
+                </ul>
+            </article>
         </div>
     </section>
 
@@ -558,6 +569,11 @@
     <!-- EmailJS SDK - Latest version for sending emails directly via Gmail -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+    <!-- GSAP - Professional animation library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
