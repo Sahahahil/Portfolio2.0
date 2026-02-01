@@ -503,8 +503,9 @@ p {
     background: var(--bg-glass);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
+    overflow: hidden;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     z-index: 150;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1335,6 +1336,9 @@ p {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(85vh - 180px);
     transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
                 transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
                 margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1470,9 +1474,9 @@ p {
     color: var(--text-primary);
     position: relative;
     letter-spacing: -0.02em;
-    opacity: 0;
-    animation: fadeInUp 0.8s var(--ease-smooth) forwards;
-}
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(85vh - 180px);
 
 .about h2::after {
     content: '';
@@ -2114,8 +2118,9 @@ p {
     max-width: 700px;
     height: auto;
     max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     z-index: 1000;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), var(--glow-cyan);
     animation: data-expansion 0.5s var(--ease-smooth);
@@ -2783,14 +2788,16 @@ p {
         width: 95vw;
         max-height: 90vh;
         padding: 20px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
     .portfolio-box.open .project-details,
     .cert-box.open .cert-details {
-        max-height: none;
-        overflow: visible;
+        max-height: calc(90vh - 160px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .about h2,

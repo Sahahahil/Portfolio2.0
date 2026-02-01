@@ -7,7 +7,7 @@
 // Check if device is mobile or low-performance
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isLowPerformance = prefersReducedMotion || (isMobile && navigator.hardwareConcurrency < 4);
+const isLowPerformance = prefersReducedMotion || isMobile;
 
 // Configure GSAP for optimal performance
 if (typeof gsap !== 'undefined') {
@@ -287,6 +287,8 @@ function initReactiveTypography() {
 function initScrollParallax() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
+    if (isMobile) return;
+
     gsap.registerPlugin(ScrollTrigger);
     
     // Configure ScrollTrigger for smoother performance
@@ -311,9 +313,6 @@ function initScrollParallax() {
             },
         });
     });
-
-    // Skip parallax on mobile for better performance
-    if (isMobile) return;
 
     // Smooth parallax for desktop
     gsap.utils.toArray('.parallax-slow').forEach((element) => {
@@ -349,6 +348,7 @@ function initScrollParallax() {
 
 class RippleEffect {
     constructor() {
+        if (isLowPerformance) return;
         this.init();
     }
 
