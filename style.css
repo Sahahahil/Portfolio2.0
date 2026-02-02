@@ -526,8 +526,9 @@ p {
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     z-index: 150;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-bottom: 1px solid var(--border-subtle);
@@ -550,6 +551,13 @@ p {
     align-items: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Navbar controls wrapper */
+.navbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Theme toggle button in navbar */
@@ -659,9 +667,9 @@ p {
 
 /* Pull-cord styles */
 .pull-cord {
-    position: absolute;
-    right: 110px; /* sits left of hamburger */
-    top: 12px;
+    position: relative;
+    right: auto;
+    top: auto;
     width: 24px;
     height: 44px;
     display: flex;
@@ -669,6 +677,7 @@ p {
     justify-content: center;
     cursor: pointer;
     z-index: 210;
+    margin-left: 12px;
 }
 
 .pull-cord .cord-line {
@@ -707,13 +716,13 @@ p {
     box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
-/* Make sure pull-cord repositions on small screens (avoid overlapping with menu) */
+/* Make sure pull-cord is grouped with hamburger menu */
 @media (max-width: 480px) {
-    .pull-cord { right: 92px; top: 10px; }
+    .pull-cord { margin-left: 8px; }
 }
 
 @media (max-width: 360px) {
-    .pull-cord { right: 76px; }
+    .pull-cord { margin-left: 4px; }
 }
 
 .navbar .logo:hover {
@@ -723,7 +732,7 @@ p {
 
 /* Hamburger Menu */
 .ham-menu {
-    height: 50px;
+    height: 44px;
     width: 40px;
     position: relative;
     cursor: pointer;
