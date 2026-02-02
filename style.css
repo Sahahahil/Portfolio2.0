@@ -1263,7 +1263,7 @@ p {
     transition: transform 320ms cubic-bezier(.2,.9,.2,1), filter 320ms ease;
     /* gentle floating animation */
     animation: float-y 6s ease-in-out infinite;
-
+}
 
 /* subtle hover/tilt effect when user hovers the image */
 .home-img .img-box:hover .img-item img {
@@ -1277,7 +1277,6 @@ p {
     100% { transform: translateY(0) rotate(0deg) scale(1); }
 }
 /* Portfolio toggle styles */
-}
 
 /* Style the project title as a button */
 .project-toggle {
@@ -1495,9 +1494,7 @@ p {
     color: var(--text-primary);
     position: relative;
     letter-spacing: -0.02em;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    max-height: calc(85vh - 180px);
+}
 
 .about h2::after {
     content: '';
