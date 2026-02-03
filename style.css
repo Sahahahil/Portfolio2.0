@@ -1225,7 +1225,7 @@ section > p {
 
 @media (max-width: 480px) {
     .home {
-        padding: 5rem 5% 3rem;
+        padding: 8rem 5% 3rem;
     }
 
     .navbar-controls {
