@@ -192,12 +192,14 @@
     const EMAILJS_SERVICE_ID = 'service_1w3me34'; // Gmail service ID from EmailJS
     const EMAILJS_TEMPLATE_ID = 'template_9h7btvk'; // Template ID from EmailJS
 
-    // Initialize EmailJS with public key
+    // Initialize EmailJS with public key (using object format for v4)
     (function initEmailJS() {
         if (typeof emailjs !== 'undefined') {
             try {
-                emailjs.init(EMAILJS_PUBLIC_KEY);
-                console.log('EmailJS initialized successfully');
+                emailjs.init({
+                    publicKey: EMAILJS_PUBLIC_KEY
+                });
+                console.log('EmailJS initialized successfully with public key:', EMAILJS_PUBLIC_KEY);
             } catch (err) {
                 console.error('EmailJS initialization error:', err);
             }
@@ -238,12 +240,14 @@
 
         try {
             if (typeof emailjs !== 'undefined' && typeof emailjs.send === 'function') {
-                // Use send() with explicit parameters for better compatibility
+                // Parameters must match EmailJS template variables exactly
                 const templateParams = {
-                    from_name: name,
-                    reply_to: email,
-                    message: message,
-                    to_name: 'Sahil'
+                    title: 'New Contact Form Message',  // for {{title}} in subject
+                    name: name,                          // for {{name}} in From Name
+                    email: email,                        // for {{email}} in Reply To
+                    from_name: name,                     // for {{from_name}} in content
+                    reply_to: email,                     // for {{reply_to}} in content
+                    message: message                     // for {{message}} in content
                 };
                 console.log('Sending email with params:', templateParams);
                 const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
