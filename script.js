@@ -187,13 +187,47 @@
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
-    // Initialize EmailJS — replace with your public key if you have one
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init('YOUR_PUBLIC_KEY');
-    }
+    // EmailJS Configuration
+    const EMAILJS_PUBLIC_KEY = 'W7TeFH4Ha4f7e5QZw'; // From EmailJS Account settings
+    const EMAILJS_SERVICE_ID = 'service_1w3me34'; // Gmail service ID from EmailJS
+    const EMAILJS_TEMPLATE_ID = 'template_9h7btvk'; // Template ID from EmailJS
+
+    // Initialize EmailJS with public key
+    (function initEmailJS() {
+        if (typeof emailjs !== 'undefined') {
+            try {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+                console.log('EmailJS initialized successfully');
+            } catch (err) {
+                console.error('EmailJS initialization error:', err);
+            }
+        } else {
+            console.warn('EmailJS library not loaded yet');
+        }
+    })();
 
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        const nameInput = form.querySelector('input[name="from_name"]');
+        const emailInput = form.querySelector('input[name="reply_to"]');
+        const messageInput = form.querySelector('textarea[name="message"]');
+
+        const name = nameInput?.value.trim();
+        const email = emailInput?.value.trim();
+        const message = messageInput?.value.trim();
+
+        // Validation
+        if (!name || !email || !message) {
+            showStatus('error', 'Please fill in all fields.');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showStatus('error', 'Please enter a valid email address.');
+            return;
+        }
 
         const btn = form.querySelector('button[type="submit"]');
         const btnText = btn.querySelector('.btn-text');
@@ -203,15 +237,18 @@
         btnText.textContent = 'Sending…';
 
         try {
-            if (typeof emailjs !== 'undefined') {
-                await emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form);
+            if (typeof emailjs !== 'undefined' && typeof emailjs.sendForm === 'function') {
+                const response = await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+                console.log('Email sent successfully!', response.status, response.text);
+                showStatus('success', 'Message sent! I\'ll get back to you soon.');
+                form.reset();
             } else {
-                await new Promise(r => setTimeout(r, 1000));
+                console.error('EmailJS library not available');
+                showStatus('error', 'Email service unavailable. Please email me directly at sahilduwal@gmail.com');
             }
-            showStatus('success', 'Message sent! I\'ll get back to you soon.');
-            form.reset();
         } catch (err) {
-            showStatus('error', 'Oops — something went wrong. Try emailing me directly.');
+            console.error('Failed to send email:', err);
+            showStatus('error', 'Oops — something went wrong. Try emailing me directly at sahilduwal@gmail.com');
         } finally {
             btn.disabled = false;
             btnText.textContent = original;
