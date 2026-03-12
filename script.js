@@ -237,8 +237,16 @@
         btnText.textContent = 'Sending…';
 
         try {
-            if (typeof emailjs !== 'undefined' && typeof emailjs.sendForm === 'function') {
-                const response = await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+            if (typeof emailjs !== 'undefined' && typeof emailjs.send === 'function') {
+                // Use send() with explicit parameters for better compatibility
+                const templateParams = {
+                    from_name: name,
+                    reply_to: email,
+                    message: message,
+                    to_name: 'Sahil'
+                };
+                console.log('Sending email with params:', templateParams);
+                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
                 console.log('Email sent successfully!', response.status, response.text);
                 showStatus('success', 'Message sent! I\'ll get back to you soon.');
                 form.reset();
@@ -248,6 +256,7 @@
             }
         } catch (err) {
             console.error('Failed to send email:', err);
+            console.error('Error details:', JSON.stringify(err));
             showStatus('error', 'Oops — something went wrong. Try emailing me directly at sahilduwal@gmail.com');
         } finally {
             btn.disabled = false;
