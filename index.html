@@ -1,581 +1,640 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sahil Duwal - Portfolio</title>
+    <title>Sahil Duwal — Computer Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <a href="#home" class="logo">
-            <span>Sahil Duwal</span>
+            <span class="logo-initials">SD</span>
+            <span class="logo-name">Sahil Duwal</span>
         </a>
 
-        <div class="navbar-controls">
-            <!-- Pull-cord theme toggle (click or pull) -->
-            <div id="pull-cord" class="pull-cord" role="button" tabindex="0" aria-label="Pull cord to toggle theme" title="Pull to toggle theme">
-                <span class="cord-line" aria-hidden="true"></span>
-                <span class="cord-knob" aria-hidden="true"></span>
-            </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#experience" class="nav-link">Experience</a></li>
+            <li><a href="#portfolio" class="nav-link">Projects</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
 
-            <!-- Theme toggle button (removed) -->
-
-            <div class="ham-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-icon sun">&#9675;</span>
+                <span class="theme-icon moon">&#9679;</span>
+            </button>
+            <a href="Resume.pdf" class="nav-cta" download>Resume</a>
+            <button class="ham-menu" id="ham-menu" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Off-screen Mobile Menu -->
-    <div class="off-screen-menu">
-        <button class="menu-close" aria-label="Close menu">×</button>
-        <ul>
-            <li><a href="#home" data-section="home">Home</a></li>
-            <li><a href="#about" data-section="about">About me</a></li>
-            <li><a href="#skills" data-section="skills">Skills</a></li>
-            <li><a href="#experience" data-section="experience">Experience</a></li>
-            <li><a href="#portfolio" data-section="portfolio">Portfolio</a></li>
-            <li><a href="#education" data-section="education">Education</a></li>
-            <li><a href="#certifications" data-section="certifications">Certifications</a></li>
-            <li><a href="#contact" data-section="contact">Contact</a></li>
-        </ul>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close">&#10005;</button>
+        <nav>
+            <a href="#home" class="mobile-link">Home</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#experience" class="mobile-link">Experience</a>
+            <a href="#portfolio" class="mobile-link">Projects</a>
+            <a href="#education" class="mobile-link">Education</a>
+            <a href="#certifications" class="mobile-link">Certifications</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </nav>
+        <a href="Resume.pdf" class="btn-primary mobile-cta" download>Download Resume</a>
     </div>
+    <div class="mobile-overlay" id="mobile-overlay"></div>
 
-    <!-- Home Section -->
-    <section class="home" id="home">
-        <div class="home-info">
-            <h1>Sahil Duwal</h1>
-            <h2>
-                <span style="--i:3;" data-text="Computer Engineer">Computer Engineer</span>
-                <span style="--i:2;" data-text="AI/ML Engineer">AI/ML Engineer</span>
-                <span style="--i:1;" data-text="Data Analyst">Data Analyst</span>
-            </h2>
-            <h3>Computer Engineering student passionate about AI, data science, computer vision, and exploring innovative technology solutions through hands-on projects.</h3>
-            <div class="btn-sci">
-                <a href="Resume.pdf" class="btn" download>Download CV</a>
-                <div class="sci">
-                    <a href="https://github.com/Sahahahil" target="_blank"><i class='bx bxl-github'></i></a>
-                    <a href="https://www.linkedin.com/in/sahil-duwal-b67a85189" target="_blank"><i class='bx bxl-linkedin'></i></a>
-                    <a href="mailto:sahilduwal@gmail.com"><i class='bx bxl-gmail'></i></a>
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="home">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-glow"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge reveal-up" style="--delay:0s">
+                <span class="badge-dot"></span>
+                Available for opportunities
+            </div>
+
+            <h1 class="hero-name reveal-up" style="--delay:0.1s">Sahil Duwal</h1>
+
+            <div class="hero-roles reveal-up" style="--delay:0.2s">
+                <span class="role-slider">
+                    <span class="role active">Computer Engineer</span>
+                    <span class="role">AI / ML Engineer</span>
+                    <span class="role">Data Analyst</span>
+                </span>
+            </div>
+
+            <p class="hero-bio reveal-up" style="--delay:0.3s">
+                Computer Engineering student building intelligent systems at the intersection of 
+                AI, computer vision, and data science. Focused on delivering real-world impact 
+                through rigorous engineering and research.
+            </p>
+
+            <div class="hero-actions reveal-up" style="--delay:0.4s">
+                <a href="#portfolio" class="btn-primary">View Projects</a>
+                <a href="Resume.pdf" class="btn-secondary" download>Download CV</a>
+            </div>
+
+            <div class="hero-social reveal-up" style="--delay:0.5s">
+                <a href="https://github.com/Sahahahil" target="_blank" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/sahil-duwal-b67a85189" target="_blank" class="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="mailto:sahilduwal@gmail.com" class="social-link" aria-label="Email">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-visual reveal-right" style="--delay:0.3s">
+            <div class="photo-frame">
+                <div class="photo-orbit orbit-1"></div>
+                <div class="photo-orbit orbit-2"></div>
+                <div class="photo-ring"></div>
+                <div class="photo-wrap">
+                    <img src="home.png" alt="Sahil Duwal">
+                </div>
+                <div class="photo-badge badge-ai">
+                    <span class="badge-icon">&#9650;</span> AI / ML
+                </div>
+                <div class="photo-badge badge-cv">
+                    <span class="badge-icon">&#9670;</span> Computer Vision
                 </div>
             </div>
         </div>
-        
-        <div class="home-img">
-            <div class="img-box">
-                <span class="ring ring-1" aria-hidden="true"></span>
-                <span class="ring ring-2" aria-hidden="true"></span>
-                <div class="img-item">
-                    <img src="home.png" alt="Profile Image">
+
+        <div class="hero-stats reveal-up" style="--delay:0.6s">
+            <div class="stat-item">
+                <span class="stat-number">8+</span>
+                <span class="stat-label">AI Projects</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Certifications</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">3+</span>
+                <span class="stat-label">Years Learning</span>
+            </div>
+        </div>
+
+        <a href="#about" class="scroll-indicator" aria-label="Scroll down">
+            <span class="scroll-line"></span>
+            <span class="scroll-text">Scroll</span>
+        </a>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-label reveal-up">About</div>
+            <div class="about-grid">
+                <div class="about-text reveal-left">
+                    <h2 class="section-title">Engineering the Future<br><em>One Model at a Time</em></h2>
+                    <p>I'm a Computer Engineering student at <strong>Khwopa College of Engineering</strong>, deeply invested in artificial intelligence, machine vision, and data-driven systems. My work spans from deepfake detection architectures to AI-powered travel assistants.</p>
+                    <p>I believe that meaningful engineering comes from understanding both the underlying mathematics and the real-world context. Every project I take on is a step toward building systems that genuinely help people.</p>
+                    <a href="#portfolio" class="btn-primary">See My Work</a>
+                </div>
+
+                <div class="about-details reveal-right">
+                    <div class="detail-card">
+                        <div class="detail-icon">&#9670;</div>
+                        <div>
+                            <h4>Focus Areas</h4>
+                            <p>Deep Learning, Computer Vision, NLP, Data Science</p>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">&#9632;</div>
+                        <div>
+                            <h4>Currently</h4>
+                            <p>DataCamp Fellow · Code for Nepal · BCom Eng student</p>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">&#9675;</div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Bhaktapur, Nepal</p>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">&#9650;</div>
+                        <div>
+                            <h4>Open To</h4>
+                            <p>Internships, Research Collaborations, Full-time Roles</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Me Section -->
-    <section class="about" id="about">
-        <h2>About Me</h2>
-        <p>
-        I’m a Computer Engineering student passionate about artificial intelligence, data science, and computer vision. 
-        I combine strong academic knowledge with practical projects to explore innovative applications of technology.   
-        </p>
+    <!-- ==================== SKILLS ==================== -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-label reveal-up">Expertise</div>
+            <h2 class="section-title reveal-up">Technical Skills</h2>
+            <p class="section-sub reveal-up">A curated overview of my technical toolkit across AI, data science, and software engineering.</p>
 
-        <div class="about-content">
-            <!-- My Journey -->
-            <div class="about-box">
-                <h3>My Journey</h3>
-                <p>
-                Currently studying at <strong>Khwopa College of Engineering</strong>, I’ve gained hands-on experience in AI, 
-                machine learning, and computer vision. From developing deepfake detection systems to building AI-powered assistants, 
-                I focus on creating solutions that address real-world challenges.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <h2>My Skills</h2>
-        <p>
-            A comprehensive overview of my technical expertise across various domains including 
-            AI, machine learning, web development, and data science.
-        </p>
-
-        <div class="skills-container">
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">{}</span>
-                    <div>
+            <div class="skills-grid">
+                <div class="skill-card reveal-up" style="--delay:0.1s">
+                    <div class="skill-card-header">
+                        <div class="skill-card-num">01</div>
                         <h3>Programming Languages</h3>
-                        <p class="skill-sub">Fluent, production use</p>
+                    </div>
+                    <p class="skill-desc">Core languages for algorithm design, system programming, and web interfaces.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">C</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
                     </div>
                 </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">C</span>
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">HTML</span>
-                    <span class="skill-tag">CSS</span>
-                </div>
-            </div>
 
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">¤</span>
-                    <div>
+                <div class="skill-card reveal-up" style="--delay:0.2s">
+                    <div class="skill-card-header">
+                        <div class="skill-card-num">02</div>
                         <h3>AI & Machine Learning</h3>
-                        <p class="skill-sub">Modeling, CV, NLP</p>
+                    </div>
+                    <p class="skill-desc">Building and training intelligent models for vision and language understanding.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">scikit-learn</span>
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">NLP</span>
                     </div>
                 </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">PyTorch</span>
-                    <span class="skill-tag">scikit-learn</span>
-                    <span class="skill-tag">Computer Vision</span>
-                    <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">NLP</span>
-                    <span class="skill-tag">Machine Learning</span>
-                </div>
-            </div>
 
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">Σ</span>
-                    <div>
+                <div class="skill-card reveal-up" style="--delay:0.3s">
+                    <div class="skill-card-header">
+                        <div class="skill-card-num">03</div>
                         <h3>Data Science & Analytics</h3>
-                        <p class="skill-sub">Analysis & visualization</p>
+                    </div>
+                    <p class="skill-desc">Extracting insights from complex datasets through statistical analysis and visualization.</p>
+                    <div class="tags">
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Matplotlib</span>
+                        <span class="tag">Data Analysis</span>
+                        <span class="tag">Statistical Modeling</span>
                     </div>
                 </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">NumPy</span>
-                    <span class="skill-tag">Pandas</span>
-                    <span class="skill-tag">Matplotlib</span>
-                    <span class="skill-tag">Data Analysis</span>
-                    <span class="skill-tag">Statistical Modeling</span>
-                </div>
-            </div>
 
-            <div class="skill-card">
-                <div class="skill-head">
-                    <span class="skill-icon" aria-hidden="true">∞</span>
-                    <div>
-                        <h3>Web Development & Tools</h3>
-                        <p class="skill-sub">APIs, tooling, infra</p>
+                <div class="skill-card reveal-up" style="--delay:0.4s">
+                    <div class="skill-card-header">
+                        <div class="skill-card-num">04</div>
+                        <h3>Web & Dev Tools</h3>
+                    </div>
+                    <p class="skill-desc">Full-stack development foundations and essential engineering tools.</p>
+                    <div class="tags">
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">React.js</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">LaTeX</span>
                     </div>
                 </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">FastAPI</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">LaTeX</span>
-                    <span class="skill-tag">MySQL</span>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section class="experience" id="experience">
-        <h2>Experience</h2>
-        <p>
-            Professional and volunteer roles where I've applied my technical skills and contributed to meaningful projects.
-        </p>
-        <div class="experience-container">
-                    <article class="exp-box">
-                        <header>
-                            <div class="exp-role">Data Annotation Intern</div>
-                            <div class="exp-org">Next Wave AI</div>
-                            <div class="exp-dates">Oct 2025 – Dec 2025</div>
-                        </header>
-                        <ul class="exp-bullets">
-                            <li>Annotated image datasets to support model training.</li>
-                            <li>Built structured JSON to automate AMS360 workflows.</li>
-                            <li>Reviewed websites for UI/UX and performance improvements.</li>
-                            <li>Tested and analyzed LLM behavior for security evaluation.</li>
-                            <li>Evaluated AI video generation tools for compatibility.</li>
+    <!-- ==================== EXPERIENCE ==================== -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <div class="section-label reveal-up">Experience</div>
+            <h2 class="section-title reveal-up">Professional Journey</h2>
+
+            <div class="timeline">
+                <div class="timeline-item reveal-left" style="--delay:0.1s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">Oct 2025 – Dec 2025</span>
+                            <span class="timeline-badge">Internship</span>
+                        </div>
+                        <h3>Data Annotation Intern</h3>
+                        <p class="timeline-org">Next Wave AI</p>
+                        <ul class="timeline-bullets">
+                            <li>Annotated images and comic covers to support computer vision model development.</li>
+                            <li>Created structured JSON pipelines for AMS360 workflow automation.</li>
+                            <li>Evaluated LLM security behavior through systematic prompt testing and red-teaming analysis.</li>
+                            <li>Researched and benchmarked AI video generation tools for capability assessment.</li>
                         </ul>
-                    </article>
+                    </div>
+                </div>
 
-                    <article class="exp-box">
-                        <header>
-                            <div class="exp-role">DataCamp Fellowship</div>
-                            <div class="exp-org">Code for Nepal</div>
-                            <div class="exp-dates">2025 – Present</div>
-                        </header>
-                        <ul class="exp-bullets">
-                            <li>Completed intensive data science training with Python.</li>
-                            <li>Strengthened data analysis and machine learning skills.</li>
-                            <li>Built hands-on projects applying statistical modeling.</li>
+                <div class="timeline-item reveal-left" style="--delay:0.2s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-connector"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">2025 – Present</span>
+                            <span class="timeline-badge">Fellowship</span>
+                        </div>
+                        <h3>DataCamp Fellow</h3>
+                        <p class="timeline-org">Code for Nepal</p>
+                        <ul class="timeline-bullets">
+                            <li>Selected for a competitive data science fellowship program.</li>
+                            <li>Advancing expertise in Python, data analysis, and machine learning applications.</li>
                         </ul>
-                    </article>
+                    </div>
+                </div>
 
-                    <article class="exp-box">
-                        <header>
-                            <div class="exp-role">Technical Support</div>
-                            <div class="exp-org">Hult Prize on Campus</div>
-                            <div class="exp-dates">2024 – 2025</div>
-                        </header>
-                        <ul class="exp-bullets">
-                            <li>Supported campus innovation challenges with technical guidance.</li>
-                            <li>Helped teams prototype and present technology solutions.</li>
-                            <li>Provided troubleshooting for event demos and presentations.</li>
+                <div class="timeline-item reveal-left" style="--delay:0.3s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">2024 – 2025</span>
+                            <span class="timeline-badge">Volunteer</span>
+                        </div>
+                        <h3>Tech Support Member</h3>
+                        <p class="timeline-org">Hult Prize — Khwopa College of Engineering</p>
+                        <ul class="timeline-bullets">
+                            <li>Delivered technical support for event management, presentation setups, and logistics.</li>
+                            <li>Ensured seamless operations across multiple Hult Prize on-campus events.</li>
                         </ul>
-                    </article>
-                </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <h2>My Portfolio</h2>
-        <p>
-            Explore my latest projects showcasing expertise in AI, machine learning, web development, and innovative technology solutions.
-        </p>
-
-        <div class="portfolio-container">
-            <!-- Project Cards -->
-            <div class="portfolio-box">
-                <h3>Deepfake Detection and Localization</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Advanced hybrid ViGNN and U-Net system for detecting and localizing deepfake content with high accuracy metrics.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>PyTorch</li>
-                    <li>Computer Vision</li>
-                    <li>Deep Learning</li>
-                    <li>U-Net</li>
-                    <li>ViGNN</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>High accuracy detection rates</li>
-                    <li>Precise localization of manipulated regions</li>
-                    <li>Robust against various deepfake techniques</li>
-                    <li>Real-time processing capabilities</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/hasana0123/DeepfakeImageDetectionAndLocalization" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Ghumti: AI Travel Assistant</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Intelligent chatbot powered by Llama 3 for providing local bus routes, schedules, and travel information.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>Llama 3</li>
-                    <li>NLP</li>
-                    <li>Chatbot</li>
-                    <li>API Integration</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>Natural language query processing</li>
-                    <li>Real-time bus schedule information</li>
-                    <li>Route optimization suggestions</li>
-                    <li>Multi-language support</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Zdrlfx/Ghumti" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Cooking Recipe Portal</h3>
-                <span class="category">Web Development • Completed</span>
-                <p>Full-stack web application for recipe management with user authentication and advanced search features.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>React.js</li>
-                    <li>FastAPI</li>
-                    <li>MySQL</li>
-                    <li>REST API</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>User authentication and profiles</li>
-                    <li>Recipe creation and sharing</li>
-                    <li>Advanced search and filtering</li>
-                    <li>Responsive design</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Sahahahil/RecipeBook" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Pattern Verse – Rug Design Generator</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Multi-modal AI system integrating JanusFlow and Stable Diffusion for generating unique rug designs with Gradio UI.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>JanusFlow</li>
-                    <li>Stable Diffusion</li>
-                    <li>Gradio</li>
-                    <li>Multi-modal AI</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>AI-powered design generation</li>
-                    <li>Multi-modal input processing</li>
-                    <li>Interactive web interface</li>
-                    <li>Customizable design parameters</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="#" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Facial Emotion Detection</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Deep CNN system to classify seven human facial emotions from images and webcam feed.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>PyTorch</li>
-                    <li>Computer Vision</li>
-                    <li>CNN</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>Real-time webcam detection</li>
-                    <li>Trained on FER-2018 dataset</li>
-                    <li>Data augmentation for accuracy</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Sahahahil/Facial-Emotion-Detection" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Real-Time Mask Detection</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Face mask detection using fine-tuned ResNet18 with real-time webcam support.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>PyTorch</li>
-                    <li>MediaPipe</li>
-                    <li>ResNet18 (pre-trained)</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>Live feed mask detection</li>
-                    <li>Bounding boxes & confidence scores</li>
-                    <li>Augmented training data</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Sahahahil/Real-Time-Mask-Detection-Resnet" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>Captioning Image</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>Image captioning with ResNet50 encoder and LSTM decoder to generate captions.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>PyTorch</li>
-                    <li>ResNet50</li>
-                    <li>LSTM</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>Vocabulary Customization</li>
-                    <li>CPU/GPU Support</li>
-                    <li>Complete train & inference pipeline</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Sahahahil/Captioning-Image" target="_blank" class="btn">View Code</a>
-                </div>
-            </div>
-
-            <div class="portfolio-box">
-                <h3>TumorNet - Brain Tumor Segmentation</h3>
-                <span class="category">AI/ML • Completed</span>
-                <p>U-Net model for brain tumor segmentation from MRI scans.</p>
-
-                <h4>Technologies Used:</h4>
-                <ul class="tech-list">
-                    <li>PyTorch</li>
-                    <li>U-Net</li>
-                    <li>Albumentations</li>
-                </ul>
-
-                <h4>Key Features:</h4>
-                <ul class="feature-list">
-                    <li>Dice score & IoU evaluation</li>
-                    <li>Tumor mask visualization</li>
-                    <li>Custom preprocessing</li>
-                </ul>
-
-                <div class="portfolio-links">
-                    <a href="https://github.com/Sahahahil/TumorNet" target="_blank" class="btn">View Code</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section class="education" id="education">
-        <h2>Education</h2>
-        <p>
-            My academic journey and educational background that shaped my technical foundation.
-        </p>
-        <div class="education-grid">
-            <article class="edu-card">
-                <header>
-                    <div class="edu-degree">Bachelor of Computer Engineering</div>
-                    <div class="edu-school">Khwopa College of Engineering</div>
-                    <div class="edu-dates">2021 – Present</div>
-                </header>
-                <ul class="edu-bullets">
-                    <li>Focused on AI, machine learning, and software development.</li>
-                    <li>Building projects that merge computer vision and data science.</li>
-                    <li>Engaged in hands-on labs and research-driven coursework.</li>
-                </ul>
-            </article>
+    <!-- ==================== PROJECTS ==================== -->
+    <section class="section portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-label reveal-up">Portfolio</div>
+            <h2 class="section-title reveal-up">Selected Projects</h2>
+            <p class="section-sub reveal-up">Research-grade engineering projects spanning AI, computer vision, and full-stack development.</p>
 
-            <article class="edu-card">
-                <header>
-                    <div class="edu-degree">Higher Secondary Level</div>
-                    <div class="edu-school">Khwopa Secondary School</div>
-                    <div class="edu-dates">2019 – 2021</div>
-                </header>
-                <ul class="edu-bullets">
-                    <li>Strengthened foundations in mathematics and sciences.</li>
-                    <li>Developed early interest in computing and problem solving.</li>
-                </ul>
-            </article>
-
-            <article class="edu-card">
-                <header>
-                    <div class="edu-degree">Lower & Secondary Level</div>
-                    <div class="edu-school">Nyatapola Secondary School</div>
-                    <div class="edu-dates">2007 – 2019</div>
-                </header>
-                <ul class="edu-bullets">
-                    <li>Built strong academic discipline and teamwork skills.</li>
-                    <li>Nurtured early curiosity for technology and innovation.</li>
-                </ul>
-            </article>
-        </div>
-    </section>
-
-    <!-- Certifications Section-->
-    <section class="certifications" id="certifications">
-        <h2>Certifications</h2>
-        <p>Recognitions and certifications I have earned to strengthen my technical expertise.</p>
-        <div class="certifications-container">
-            <div class="cert-box">
-                <h3>Learn HTML</h3>
-                <span>Programiz Pro</span>
-                <p>Acquired Foundational knowledge of HTML, including structuring webpages, working with tags, elements, and attributes to create well-formed web documents.</p>
-            </div>
-            <div class="cert-box">
-                <h3>SQL Basics</h3>
-                <span>Programiz Pro</span>
-                <p>Learned how to query, filter, and manipulate data in relational databases using SQL commands such as SELECT, WHERE, JOIN, and ORDER BY.</p>
-            </div>
-            <div class="cert-box">
-                <h3>Learn Python Basics</h3>
-                <span>Programiz Pro</span>
-                <p>Built a strong foundation in Python programming, covering syntax, variables, control structures, functions, and simple problem-solving with scripts.</p>
-            </div>
-            <div class="cert-box">
-                <h3>Python Essentials 1</h3>
-                <span>Cisco Networking Academy</span>
-                <p>Explored core Python concepts such as data types, loops, conditionals, and error handling, with a focus on problem-solving and algorithmic thinking.</p>
-            </div>
-            <div class="cert-box">
-                <h3>Introduction to Cybersecurity</h3>
-                <span>Cisco Networking Academy</span>
-                <p>Studied the fundamentals of cybersecurity, including cyber threats, data protection, cryptography basics, and strategies for securing digital environments.</p>
-            </div>
-            <div class="cert-box">
-                <h3>Introduction to IoT</h3>
-                <span>Cisco Networking Academy</span>
-                <p>Gained insight into the Internet of Things (IoT), its applications, and how devices, sensors, and networks interact to create smart systems.</p>
-            </div>
-            <div class="cert-box">
-                <h3>AI Fundamentals</h3>
-                <span>DataCamp</span>
-                <p>Developed a foundational understanding of Artificial Intelligence concepts, including machine learning basics, data-driven decision-making, and ethical considerations.</p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <h2>Contact Me</h2>
-        <p>Interested in working together or have any questions? Feel free to reach out!</p>
-
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="info-item">
-                    <i class='bx bxl-gmail'></i>
-                    <a href="mailto:sahilduwal@gmail.com">Mail</a>
+            <div class="projects-grid">
+                <div class="project-card featured reveal-up" style="--delay:0.1s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML · Flagship</div>
+                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Deepfake Detection & Localization</h3>
+                    <p>Developed a hybrid ViGNN–U-Net model for detecting and localizing deepfake content with high accuracy and robustness across multiple manipulation types.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">U-Net</span>
+                        <span class="tag">ViGNN</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">Deep Learning</span>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <i class='bx bxl-linkedin'></i>
-                    <a href="https://www.linkedin.com/in/sahil-duwal-b67a85189" target="_blank">
-                        LinkedIn
+
+                <div class="project-card reveal-up" style="--delay:0.2s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML</div>
+                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Ghumti: AI Travel Assistant</h3>
+                    <p>Intelligent chatbot powered by Llama 3 for real-time local bus routes, schedules, and optimized travel recommendations.</p>
+                    <div class="tags">
+                        <span class="tag">Llama 3</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">Chatbot</span>
+                        <span class="tag">API Integration</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up" style="--delay:0.3s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML</div>
+                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Rug Design Generator — Pattern Verse</h3>
+                    <p>Multi-modal AI system using JanusFlow & Stable Diffusion for customizable rug designs via Gradio UI. Advanced to Phase-2 at Locus Pattern Verse.</p>
+                    <div class="tags">
+                        <span class="tag">JanusFlow</span>
+                        <span class="tag">Stable Diffusion</span>
+                        <span class="tag">Gradio</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up" style="--delay:0.1s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML</div>
+                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>TumorNet — Brain Tumor Segmentation</h3>
+                    <p>U-Net model for brain tumor segmentation from MRI scans, achieving strong Dice coefficient and IoU metrics with custom preprocessing pipelines.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">U-Net</span>
+                        <span class="tag">Albumentations</span>
+                        <span class="tag">Medical Imaging</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up" style="--delay:0.2s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML</div>
+                        <a href="https://github.com/Sahahahil/Facial-Emotion-Detection" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Facial Emotion Detection</h3>
+                    <p>Deep CNN model classifying seven human emotions from static images and real-time webcam feeds using PyTorch and transfer learning.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">CNN</span>
+                        <span class="tag">Computer Vision</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up" style="--delay:0.3s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">Web Dev</div>
+                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Cooking Recipe Portal</h3>
+                    <p>Full-stack web application for recipe management with secure authentication, advanced search functionality, and a fully responsive UI.</p>
+                    <div class="tags">
+                        <span class="tag">React.js</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EDUCATION ==================== -->
+    <section class="section education" id="education">
+        <div class="container">
+            <div class="section-label reveal-up">Education</div>
+            <h2 class="section-title reveal-up">Academic Background</h2>
+
+            <div class="education-list">
+                <div class="edu-row reveal-up" style="--delay:0.1s">
+                    <div class="edu-year">2021 – Present</div>
+                    <div class="edu-body">
+                        <div class="edu-degree">Bachelor of Computer Engineering</div>
+                        <div class="edu-school">Khwopa College of Engineering, IOE — Libali, Bhaktapur</div>
+                        <p class="edu-desc">Comprehensive program with focus on AI, machine learning, and software development. Engaged in hands-on labs and research-driven coursework.</p>
+                    </div>
+                    <div class="edu-badge current">Current</div>
+                </div>
+
+                <div class="edu-row reveal-up" style="--delay:0.2s">
+                    <div class="edu-year">2019 – 2021</div>
+                    <div class="edu-body">
+                        <div class="edu-degree">Higher Secondary Education (+2), Science</div>
+                        <div class="edu-school">Khwopa Secondary School — Dekocha, Bhaktapur</div>
+                        <p class="edu-desc">Strengthened foundations in mathematics and sciences. GPA: 3.01</p>
+                    </div>
+                    <div class="edu-badge">Completed</div>
+                </div>
+
+                <div class="edu-row reveal-up" style="--delay:0.3s">
+                    <div class="edu-year">2007 – 2019</div>
+                    <div class="edu-body">
+                        <div class="edu-degree">Primary & Secondary Education</div>
+                        <div class="edu-school">Nyatapola Secondary School — Kamalbinayak, Bhaktapur</div>
+                        <p class="edu-desc">Built strong academic discipline and early curiosity for technology. GPA: 3.60</p>
+                    </div>
+                    <div class="edu-badge">Completed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ACHIEVEMENTS ==================== -->
+    <section class="section achievements" id="achievements">
+        <div class="container">
+            <div class="section-label reveal-up">Recognition</div>
+            <h2 class="section-title reveal-up">Achievements</h2>
+
+            <div class="achievements-grid">
+                <div class="achievement-card reveal-up" style="--delay:0.1s">
+                    <div class="achievement-year">2025</div>
+                    <h3>Locus Pattern Verse</h3>
+                    <p>Advanced to Phase-2 in the national tech competition with an AI-powered rug design generation system.</p>
+                </div>
+                <div class="achievement-card reveal-up" style="--delay:0.2s">
+                    <div class="achievement-year">2025</div>
+                    <h3>CodeYatra Hackathon</h3>
+                    <p>Participated in a national-level innovation hackathon, focusing on AI-driven problem-solving solutions.</p>
+                </div>
+                <div class="achievement-card reveal-up" style="--delay:0.3s">
+                    <div class="achievement-year">2022–23</div>
+                    <h3>Hult Prize Nepal</h3>
+                    <p>Reached Semi-Finals with a campus team startup idea presenting an innovative social impact solution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CERTIFICATIONS ==================== -->
+    <section class="section certifications" id="certifications">
+        <div class="container">
+            <div class="section-label reveal-up">Credentials</div>
+            <h2 class="section-title reveal-up">Certifications</h2>
+
+            <div class="certs-grid">
+                <div class="cert-row reveal-up" style="--delay:0.05s">
+                    <div class="cert-org">DataCamp</div>
+                    <div class="cert-name">AI Fundamentals</div>
+                    <div class="cert-year">2025</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.1s">
+                    <div class="cert-org">DataCamp</div>
+                    <div class="cert-name">Data Skills for Business</div>
+                    <div class="cert-year">2025</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.15s">
+                    <div class="cert-org">DataCamp</div>
+                    <div class="cert-name">EU AI Act Fundamentals</div>
+                    <div class="cert-year">2025</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.2s">
+                    <div class="cert-org">DataCamp</div>
+                    <div class="cert-name">Understanding Data Topics</div>
+                    <div class="cert-year">2025</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.25s">
+                    <div class="cert-org">Cisco Networking Academy</div>
+                    <div class="cert-name">Python Essentials 1</div>
+                    <div class="cert-year">2024</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.3s">
+                    <div class="cert-org">Cisco Networking Academy</div>
+                    <div class="cert-name">Introduction to Cybersecurity</div>
+                    <div class="cert-year">2024</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.35s">
+                    <div class="cert-org">Cisco Networking Academy</div>
+                    <div class="cert-name">Introduction to IoT</div>
+                    <div class="cert-year">2024</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.4s">
+                    <div class="cert-org">Programiz Pro</div>
+                    <div class="cert-name">Learn HTML</div>
+                    <div class="cert-year">2024</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.45s">
+                    <div class="cert-org">Programiz Pro</div>
+                    <div class="cert-name">SQL Basics</div>
+                    <div class="cert-year">2024</div>
+                </div>
+                <div class="cert-row reveal-up" style="--delay:0.5s">
+                    <div class="cert-org">Programiz Pro</div>
+                    <div class="cert-name">Learn Python Basics</div>
+                    <div class="cert-year">2024</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-label reveal-up">Contact</div>
+            <h2 class="section-title reveal-up">Let's Connect</h2>
+            <p class="section-sub reveal-up">Open to internships, research collaborations, and full-time opportunities. Reach out and let's talk.</p>
+
+            <div class="contact-grid">
+                <div class="contact-info reveal-left">
+                    <a href="mailto:sahilduwal@gmail.com" class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        </div>
+                        <div>
+                            <div class="contact-item-label">Email</div>
+                            <div class="contact-item-value">sahilduwal@gmail.com</div>
+                        </div>
+                        <span class="contact-arrow">&#8599;</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sahil-duwal-b67a85189" target="_blank" class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </div>
+                        <div>
+                            <div class="contact-item-label">LinkedIn</div>
+                            <div class="contact-item-value">sahil-duwal-b67a85189</div>
+                        </div>
+                        <span class="contact-arrow">&#8599;</span>
+                    </a>
+                    <a href="https://github.com/Sahahahil" target="_blank" class="contact-item">
+                        <div class="contact-item-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </div>
+                        <div>
+                            <div class="contact-item-label">GitHub</div>
+                            <div class="contact-item-value">github.com/Sahahahil</div>
+                        </div>
+                        <span class="contact-arrow">&#8599;</span>
                     </a>
                 </div>
-                <div class="info-item">
-                    <i class='bx bxl-github'></i>
-                    <a href="https://github.com/Sahahahil" target="_blank">Github-Sahahahil</a>
-                </div>
-            </div>
 
-            <!-- Contact form: name attributes are required for EmailJS/template mapping -->
-            <form id="contact-form" class="contact-form">
-                <input type="text" name="from_name" placeholder="Your Name" required>
-                <input type="email" name="reply_to" placeholder="Your Email" required>
-                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+                <form id="contact-form" class="contact-form reveal-right">
+                    <div class="form-group">
+                        <label for="from_name">Name</label>
+                        <input type="text" id="from_name" name="from_name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reply_to">Email</label>
+                        <input type="email" id="reply_to" name="reply_to" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell me about your project or opportunity..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-icon">&#8594;</span>
+                    </button>
+                    <div class="form-status" id="form-status"></div>
+                </form>
+            </div>
         </div>
     </section>
 
-    <!-- EmailJS SDK - Latest version for sending emails directly via Gmail -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <span class="logo-initials">SD</span>
+                <span>Sahil Duwal &copy; 2025</span>
+            </div>
+            <div class="footer-right">
+                <span>Built with precision &amp; passion</span>
+            </div>
+        </div>
+    </footer>
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-    <!-- GSAP - Professional animation library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
