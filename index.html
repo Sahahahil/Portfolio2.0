@@ -6,10 +6,18 @@
     <title>Sahil Duwal — Computer Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <aside class="progress-rail" aria-label="Section progress">
+        <div class="progress-rail-line"><span class="progress-rail-fill" id="progress-fill"></span></div>
+        <a href="#home" class="rail-dot active" data-rail-target="home"><span>Intro</span></a>
+        <a href="#experience" class="rail-dot" data-rail-target="experience"><span>Research</span></a>
+        <a href="#portfolio" class="rail-dot" data-rail-target="portfolio"><span>AI Models</span></a>
+        <a href="#contact" class="rail-dot" data-rail-target="contact"><span>Contact</span></a>
+    </aside>
 
     <!-- Cursor -->
     <div class="cursor" id="cursor"></div>
@@ -28,6 +36,7 @@
             <li><a href="#experience" class="nav-link">Experience</a></li>
             <li><a href="#portfolio" class="nav-link">Projects</a></li>
             <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#certifications" class="nav-link">Certifications</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
 
@@ -259,6 +268,20 @@
                         <span class="tag">LaTeX</span>
                     </div>
                 </div>
+
+                <!-- <div class="skill-card skill-card-signal reveal-up" style="--delay:0.6s">
+                    <div class="skill-card-header">
+                        <div class="skill-card-num">05</div>
+                        <h3>Model Reliability</h3>
+                    </div>
+                    <p class="skill-desc">Production-oriented experimentation with classical and hybrid AI stacks.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">PennyLane</span>
+                        <span class="tag">MLOps-ready</span>
+                    </div>
+                    <div class="live-status" id="live-stack-status"><span class="status-dot"></span><strong>Success</strong><span id="live-stack-text"> synced now</span></div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -332,12 +355,12 @@
             <h2 class="section-title reveal-up">Selected Projects</h2>
             <p class="section-sub reveal-up">Research-grade engineering projects spanning AI, computer vision, and full-stack development.</p>
 
-            <div class="projects-grid">
+            <div class="projects-grid bento-grid">
                 <div class="project-card featured reveal-up" style="--delay:0.1s">
                     <div class="project-accent"></div>
                     <div class="project-header">
                         <div class="project-type">AI / ML · Flagship</div>
-                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                        <a href="https://github.com/hasana0123/DeepfakeImageDetectionAndLocalization.git" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
                     </div>
                     <h3>Deepfake Detection & Localization</h3>
                     <p>Developed a hybrid ViGNN–U-Net model for detecting and localizing deepfake content with high accuracy and robustness across multiple manipulation types.</p>
@@ -350,42 +373,11 @@
                     </div>
                 </div>
 
-                <div class="project-card reveal-up" style="--delay:0.2s">
-                    <div class="project-accent"></div>
-                    <div class="project-header">
-                        <div class="project-type">AI / ML</div>
-                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
-                    </div>
-                    <h3>Ghumti: AI Travel Assistant</h3>
-                    <p>Intelligent chatbot powered by Llama 3 for real-time local bus routes, schedules, and optimized travel recommendations.</p>
-                    <div class="tags">
-                        <span class="tag">Llama 3</span>
-                        <span class="tag">NLP</span>
-                        <span class="tag">Chatbot</span>
-                        <span class="tag">API Integration</span>
-                    </div>
-                </div>
-
-                <div class="project-card reveal-up" style="--delay:0.3s">
-                    <div class="project-accent"></div>
-                    <div class="project-header">
-                        <div class="project-type">AI / ML</div>
-                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
-                    </div>
-                    <h3>Rug Design Generator — Pattern Verse</h3>
-                    <p>Multi-modal AI system using JanusFlow & Stable Diffusion for customizable rug designs via Gradio UI. Advanced to Phase-2 at Locus Pattern Verse.</p>
-                    <div class="tags">
-                        <span class="tag">JanusFlow</span>
-                        <span class="tag">Stable Diffusion</span>
-                        <span class="tag">Gradio</span>
-                    </div>
-                </div>
-
                 <div class="project-card reveal-up" style="--delay:0.1s">
                     <div class="project-accent"></div>
                     <div class="project-header">
                         <div class="project-type">AI / ML</div>
-                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                        <a href="https://github.com/Sahahahil/TumorNet.git" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
                     </div>
                     <h3>TumorNet — Brain Tumor Segmentation</h3>
                     <p>U-Net model for brain tumor segmentation from MRI scans, achieving strong Dice coefficient and IoU metrics with custom preprocessing pipelines.</p>
@@ -401,7 +393,7 @@
                     <div class="project-accent"></div>
                     <div class="project-header">
                         <div class="project-type">AI / ML</div>
-                        <a href="https://github.com/Sahahahil/Facial-Emotion-Detection" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                        <a href="https://github.com/Sahahahil/Facial-Emotion-Detection.git" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
                     </div>
                     <h3>Facial Emotion Detection</h3>
                     <p>Deep CNN model classifying seven human emotions from static images and real-time webcam feeds using PyTorch and transfer learning.</p>
@@ -415,17 +407,98 @@
                 <div class="project-card reveal-up" style="--delay:0.3s">
                     <div class="project-accent"></div>
                     <div class="project-header">
-                        <div class="project-type">Web Dev</div>
-                        <a href="https://github.com/Sahahahil" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                        <div class="project-type">AI / ML · NLP</div>
+                        <a href="https://github.com/Sahahahil/PDF-Q-A-" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
                     </div>
-                    <h3>Cooking Recipe Portal</h3>
-                    <p>Full-stack web application for recipe management with secure authentication, advanced search functionality, and a fully responsive UI.</p>
+                    <h3>PDF Q&amp;A — Local RAG Bot</h3>
+                    <p>Local multi-document RAG app for semantic PDF retrieval and grounded answers with Llama 2.</p>
                     <div class="tags">
-                        <span class="tag">React.js</span>
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">MySQL</span>
+                        <span class="tag">LangChain</span>
+                        <span class="tag">Llama 2 (Ollama)</span>
+                        <span class="tag">sentence-transformers</span>
+                        <span class="tag">DocArray</span>
+                        <span class="tag">Streamlit</span>
                     </div>
                 </div>
+
+                <div class="project-card reveal-up" style="--delay:0.1s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML · Finance</div>
+                        <a href="https://github.com/Sahahahil/Fraud_DS" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Fraud Detection — Transaction Security</h3>
+                    <p>FNN-based fraud engine with weighted BCE loss and threshold tuning for highly imbalanced datasets.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Streamlit</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Imbalanced Learning</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up" style="--delay:0.2s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">Productivity · Web Dev</div>
+                        <a href="https://github.com/Sahahahil/To-Do-List" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>Modern To-Do — Productivity Suite</h3>
+                    <p>Task manager with local LLM chat, canvas progress tracking, custom calendar, and persistent themes.</p>
+                    <div class="tags">
+                        <span class="tag">Vanilla JS</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express</span>
+                        <span class="tag">Ollama (Phi-3)</span>
+                        <span class="tag">HTML5/CSS3</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up has-schematic" style="--delay:0.3s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML · CV</div>
+                        <a href="https://github.com/Sahahahil/Real-Time-Mask-Detection-Resnet" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>MaskGuard — Real-Time Detection</h3>
+                    <p>Real-time mask detection using fine-tuned ResNet18 with MediaPipe localization and OpenCV inference.</p>
+                    <div class="schematic-overlay" aria-hidden="true">
+                        <div class="schematic-lines"></div>
+                        <div class="schematic-label">ResNet18 + MediaPipe Pipeline</div>
+                        <a href="https://github.com/Sahahahil/Real-Time-Mask-Detection-Resnet" target="_blank" class="schematic-cta">View Research Paper</a>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">MediaPipe</span>
+                        <span class="tag">OpenCV</span>
+                        <span class="tag">ResNet18</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal-up has-schematic" style="--delay:0.1s">
+                    <div class="project-accent"></div>
+                    <div class="project-header">
+                        <div class="project-type">AI / ML · CV &amp; NLP</div>
+                        <a href="https://github.com/Sahahahil/Captioning-Image" target="_blank" class="project-link-icon" aria-label="View on GitHub">&#8599;</a>
+                    </div>
+                    <h3>VisionScript — Image Captioning</h3>
+                    <p>End-to-end image captioning with ResNet50 encoding and LSTM decoding plus beam search generation.</p>
+                    <div class="schematic-overlay" aria-hidden="true">
+                        <div class="schematic-lines"></div>
+                        <div class="schematic-label">ResNet50 Encoder -> LSTM Decoder</div>
+                        <a href="https://github.com/Sahahahil/Captioning-Image" target="_blank" class="schematic-cta">View Research Paper</a>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">ResNet50</span>
+                        <span class="tag">LSTM (RNN)</span>
+                        <span class="tag">Flickr8k</span>
+                        <span class="tag">Pillow</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -438,34 +511,25 @@
 
             <div class="education-list">
                 <div class="edu-row reveal-up" style="--delay:0.1s">
-                    <div class="edu-year">2021 – Present</div>
+                    <div class="edu-year reveal-up" style="--delay:0.14s">2021 – Present</div>
                     <div class="edu-body">
-                        <div class="edu-degree">Bachelor of Computer Engineering</div>
-                        <div class="edu-school">Khwopa College of Engineering, IOE — Libali, Bhaktapur</div>
-                        <p class="edu-desc">Comprehensive program with focus on AI, machine learning, and software development. Engaged in hands-on labs and research-driven coursework.</p>
+                        <div class="edu-degree reveal-up" style="--delay:0.18s">Bachelor of Computer Engineering</div>
+                        <div class="edu-school reveal-up" style="--delay:0.22s">Khwopa College of Engineering, IOE — Libali, Bhaktapur</div>
+                        <p class="edu-desc reveal-up" style="--delay:0.26s">Comprehensive program with focus on AI, machine learning, and software development. Engaged in hands-on labs and research-driven coursework.</p>
                     </div>
-                    <div class="edu-badge current">Current</div>
+                    <div class="edu-badge current reveal-up" style="--delay:0.3s">Current</div>
                 </div>
 
                 <div class="edu-row reveal-up" style="--delay:0.2s">
-                    <div class="edu-year">2019 – 2021</div>
+                    <div class="edu-year reveal-up" style="--delay:0.24s">2019 – 2021</div>
                     <div class="edu-body">
-                        <div class="edu-degree">Higher Secondary Education (+2), Science</div>
-                        <div class="edu-school">Khwopa Secondary School — Dekocha, Bhaktapur</div>
-                        <p class="edu-desc">Strengthened foundations in mathematics and sciences. GPA: 3.01</p>
+                        <div class="edu-degree reveal-up" style="--delay:0.28s">Higher Secondary Education (+2), Science</div>
+                        <div class="edu-school reveal-up" style="--delay:0.32s">Khwopa Secondary School — Dekocha, Bhaktapur</div>
+                        <p class="edu-desc reveal-up" style="--delay:0.36s">Strengthened foundations in mathematics and sciences.</p>
                     </div>
-                    <div class="edu-badge">Completed</div>
+                    <div class="edu-badge reveal-up" style="--delay:0.4s">Completed</div>
                 </div>
 
-                <div class="edu-row reveal-up" style="--delay:0.3s">
-                    <div class="edu-year">2007 – 2019</div>
-                    <div class="edu-body">
-                        <div class="edu-degree">Primary & Secondary Education</div>
-                        <div class="edu-school">Nyatapola Secondary School — Kamalbinayak, Bhaktapur</div>
-                        <p class="edu-desc">Built strong academic discipline and early curiosity for technology. GPA: 3.60</p>
-                    </div>
-                    <div class="edu-badge">Completed</div>
-                </div>
             </div>
         </div>
     </section>
@@ -504,54 +568,54 @@
 
             <div class="certs-grid">
                 <div class="cert-row reveal-up" style="--delay:0.05s">
-                    <div class="cert-org">DataCamp</div>
-                    <div class="cert-name">AI Fundamentals</div>
-                    <div class="cert-year">2025</div>
+                    <div class="cert-org reveal-up" style="--delay:0.08s">DataCamp</div>
+                    <div class="cert-name reveal-up" style="--delay:0.12s">AI Fundamentals</div>
+                    <div class="cert-year reveal-up" style="--delay:0.16s">2025</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.1s">
-                    <div class="cert-org">DataCamp</div>
-                    <div class="cert-name">Data Skills for Business</div>
-                    <div class="cert-year">2025</div>
+                    <div class="cert-org reveal-up" style="--delay:0.13s">DataCamp</div>
+                    <div class="cert-name reveal-up" style="--delay:0.17s">Data Skills for Business</div>
+                    <div class="cert-year reveal-up" style="--delay:0.21s">2025</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.15s">
-                    <div class="cert-org">DataCamp</div>
-                    <div class="cert-name">EU AI Act Fundamentals</div>
-                    <div class="cert-year">2025</div>
+                    <div class="cert-org reveal-up" style="--delay:0.18s">DataCamp</div>
+                    <div class="cert-name reveal-up" style="--delay:0.22s">EU AI Act Fundamentals</div>
+                    <div class="cert-year reveal-up" style="--delay:0.26s">2025</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.2s">
-                    <div class="cert-org">DataCamp</div>
-                    <div class="cert-name">Understanding Data Topics</div>
-                    <div class="cert-year">2025</div>
+                    <div class="cert-org reveal-up" style="--delay:0.23s">DataCamp</div>
+                    <div class="cert-name reveal-up" style="--delay:0.27s">Understanding Data Topics</div>
+                    <div class="cert-year reveal-up" style="--delay:0.31s">2025</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.25s">
-                    <div class="cert-org">Cisco Networking Academy</div>
-                    <div class="cert-name">Python Essentials 1</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.28s">Cisco Networking Academy</div>
+                    <div class="cert-name reveal-up" style="--delay:0.32s">Python Essentials 1</div>
+                    <div class="cert-year reveal-up" style="--delay:0.36s">2024</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.3s">
-                    <div class="cert-org">Cisco Networking Academy</div>
-                    <div class="cert-name">Introduction to Cybersecurity</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.33s">Cisco Networking Academy</div>
+                    <div class="cert-name reveal-up" style="--delay:0.37s">Introduction to Cybersecurity</div>
+                    <div class="cert-year reveal-up" style="--delay:0.41s">2024</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.35s">
-                    <div class="cert-org">Cisco Networking Academy</div>
-                    <div class="cert-name">Introduction to IoT</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.38s">Cisco Networking Academy</div>
+                    <div class="cert-name reveal-up" style="--delay:0.42s">Introduction to IoT</div>
+                    <div class="cert-year reveal-up" style="--delay:0.46s">2024</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.4s">
-                    <div class="cert-org">Programiz Pro</div>
-                    <div class="cert-name">Learn HTML</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.43s">Programiz Pro</div>
+                    <div class="cert-name reveal-up" style="--delay:0.47s">Learn HTML</div>
+                    <div class="cert-year reveal-up" style="--delay:0.51s">2024</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.45s">
-                    <div class="cert-org">Programiz Pro</div>
-                    <div class="cert-name">SQL Basics</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.48s">Programiz Pro</div>
+                    <div class="cert-name reveal-up" style="--delay:0.52s">SQL Basics</div>
+                    <div class="cert-year reveal-up" style="--delay:0.56s">2024</div>
                 </div>
                 <div class="cert-row reveal-up" style="--delay:0.5s">
-                    <div class="cert-org">Programiz Pro</div>
-                    <div class="cert-name">Learn Python Basics</div>
-                    <div class="cert-year">2024</div>
+                    <div class="cert-org reveal-up" style="--delay:0.53s">Programiz Pro</div>
+                    <div class="cert-name reveal-up" style="--delay:0.57s">Learn Python Basics</div>
+                    <div class="cert-year reveal-up" style="--delay:0.61s">2024</div>
                 </div>
             </div>
         </div>
@@ -582,7 +646,7 @@
                         </div>
                         <div>
                             <div class="contact-item-label">LinkedIn</div>
-                            <div class="contact-item-value">sahil-duwal-b67a85189</div>
+                            <div class="contact-item-value">Sahil Duwal</div>
                         </div>
                         <span class="contact-arrow">&#8599;</span>
                     </a>
@@ -592,7 +656,7 @@
                         </div>
                         <div>
                             <div class="contact-item-label">GitHub</div>
-                            <div class="contact-item-value">github.com/Sahahahil</div>
+                            <div class="contact-item-value">Sahahahil</div>
                         </div>
                         <span class="contact-arrow">&#8599;</span>
                     </a>
@@ -626,7 +690,7 @@
         <div class="container footer-inner">
             <div class="footer-left">
                 <span class="logo-initials">SD</span>
-                <span>Sahil Duwal &copy; 2025</span>
+                <span>Sahil Duwal &copy; 2026</span>
             </div>
             <div class="footer-right">
                 <span>Built with precision &amp; passion</span>
@@ -634,7 +698,14 @@
         </div>
     </footer>
 
+    <div class="project-expand-overlay" id="project-expand-overlay" aria-hidden="true">
+        <div class="project-expand-backdrop" id="project-expand-backdrop"></div>
+        <article class="project-expand-panel" id="project-expand-panel"></article>
+    </div>
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
