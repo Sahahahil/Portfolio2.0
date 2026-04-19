@@ -5,10 +5,57 @@
 (function () {
     'use strict';
 
+    /* ---- Home Loader (every refresh/visit) ---- */
+    const siteLoader = document.getElementById('site-loader');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const loaderDisplayMs = 1200;
+
+    const dismissLoader = (animate = true) => {
+        if (!siteLoader || siteLoader.hasAttribute('hidden')) return;
+        if (!animate) {
+            siteLoader.setAttribute('hidden', 'hidden');
+            document.body.classList.remove('is-loading');
+            return;
+        }
+
+        siteLoader.classList.add('is-exiting');
+        const finalize = () => {
+            siteLoader.setAttribute('hidden', 'hidden');
+            siteLoader.classList.remove('is-exiting');
+            document.body.classList.remove('is-loading');
+        };
+
+        // Keep a timeout fallback in case animation events are blocked.
+        siteLoader.addEventListener('animationend', finalize, { once: true });
+        window.setTimeout(finalize, 800);
+    };
+
+    if (siteLoader) {
+        document.body.classList.add('is-loading');
+        const runIntro = () => {
+            window.setTimeout(() => {
+                dismissLoader(!prefersReducedMotion);
+            }, loaderDisplayMs);
+        };
+
+        if (document.readyState === 'complete') {
+            runIntro();
+        } else {
+            window.addEventListener('load', runIntro, { once: true });
+        }
+    }
+
     /* ---- Theme Management ---- */
     const htmlEl = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
     const stored = localStorage.getItem('portfolio-theme');
+
+    function syncThemeToggle(theme) {
+        if (!themeToggle) return;
+        const isDark = theme === 'dark';
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+        themeToggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
 
     if (stored) {
         htmlEl.setAttribute('data-theme', stored);
@@ -16,11 +63,14 @@
         htmlEl.setAttribute('data-theme', 'light');
     }
 
+    syncThemeToggle(htmlEl.getAttribute('data-theme') || 'dark');
+
     themeToggle?.addEventListener('click', () => {
         const current = htmlEl.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         htmlEl.setAttribute('data-theme', next);
         localStorage.setItem('portfolio-theme', next);
+        syncThemeToggle(next);
     });
 
     /* ---- Custom Cursor ---- */
@@ -36,7 +86,6 @@
     let mouseX = 0, mouseY = 0;
     let followerX = 0, followerY = 0;
     let mouseFrame = null;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const isSmallScreen = window.matchMedia('(max-width: 1024px)').matches;
     const enableHeavyFx = !prefersReducedMotion && !isCoarsePointer && !isSmallScreen;
@@ -231,12 +280,10 @@
     });
 
     /* ---- Scroll Reveal ---- */
-    // Apply reveal effect to non-hero elements only so hero keeps CSS load-in animation.
-    const heroSection = document.getElementById('home');
     const autoPopTargets = document.querySelectorAll([
-        'section:not(#home) .section-label',
-        'section:not(#home) .section-title',
-        'section:not(#home) .section-sub',
+        'section .section-label',
+        'section .section-title',
+        'section .section-sub',
         '.about .detail-card',
         '.experience .timeline-item',
         '.education .edu-row',
@@ -250,7 +297,6 @@
     ].join(', '));
 
     autoPopTargets.forEach((el) => {
-        if (heroSection?.contains(el)) return;
         if (el.closest('.projects-grid.bento-grid .project-card')) return;
         if (
             el.classList.contains('reveal-up') ||
@@ -267,8 +313,22 @@
         '.reveal-up, .reveal-left, .reveal-right, .auto-pop'
     );
     const revealElements = Array.from(allRevealElements).filter(
-        el => !heroSection?.contains(el) && !el.closest('.projects-grid.bento-grid')
+        el => !el.closest('.projects-grid.bento-grid')
     );
+    const revealDirections = [
+        { x: 0, y: -1 },   // top
+        { x: 0, y: 1 },    // bottom
+        { x: -1, y: 0 },   // left
+        { x: 1, y: 0 },    // right
+        { x: -1, y: -1 },  // top-left
+        { x: 1, y: -1 },   // top-right
+        { x: -1, y: 1 },   // bottom-left
+        { x: 1, y: 1 }     // bottom-right
+    ];
+
+    function pickRandomRevealVector() {
+        return revealDirections[Math.floor(Math.random() * revealDirections.length)];
+    }
 
     revealElements.forEach((el) => {
         el.classList.add('scroll-reveal');
@@ -278,32 +338,51 @@
         }
 
         const sectionId = el.closest('section')?.id;
-        if (sectionId === 'education' || sectionId === 'certifications') {
-            el.style.setProperty('--reveal-y', '26px');
+        let revealShift = 34;
+        if (sectionId === 'home') {
+            revealShift = 42;
+            el.style.setProperty('--reveal-scale', '0.965');
+            el.style.setProperty('--reveal-opacity-duration', '0.64s');
+            el.style.setProperty('--reveal-transform-duration', '0.76s');
+        } else if (sectionId === 'education' || sectionId === 'certifications') {
+            revealShift = 26;
             el.style.setProperty('--reveal-scale', '0.985');
             el.style.setProperty('--reveal-opacity-duration', '0.55s');
             el.style.setProperty('--reveal-transform-duration', '0.62s');
         } else if (sectionId === 'achievements' || sectionId === 'portfolio') {
-            el.style.setProperty('--reveal-y', '50px');
+            revealShift = 50;
             el.style.setProperty('--reveal-scale', '0.94');
             el.style.setProperty('--reveal-opacity-duration', '0.72s');
             el.style.setProperty('--reveal-transform-duration', '0.82s');
         } else if (sectionId === 'experience' || sectionId === 'skills') {
-            el.style.setProperty('--reveal-y', '38px');
+            revealShift = 38;
             el.style.setProperty('--reveal-scale', '0.965');
             el.style.setProperty('--reveal-opacity-duration', '0.62s');
             el.style.setProperty('--reveal-transform-duration', '0.72s');
         } else if (sectionId === 'about' || sectionId === 'contact') {
-            el.style.setProperty('--reveal-y', '34px');
+            revealShift = 34;
             el.style.setProperty('--reveal-scale', '0.97');
             el.style.setProperty('--reveal-opacity-duration', '0.6s');
             el.style.setProperty('--reveal-transform-duration', '0.7s');
         } else {
-            el.style.setProperty('--reveal-y', '30px');
+            revealShift = 30;
             el.style.setProperty('--reveal-scale', '0.975');
             el.style.setProperty('--reveal-opacity-duration', '0.58s');
             el.style.setProperty('--reveal-transform-duration', '0.68s');
         }
+
+        // About section keeps a slightly stronger reveal distance.
+        if (sectionId === 'about') {
+            revealShift = 56;
+            el.style.setProperty('--reveal-opacity-duration', '0.66s');
+            el.style.setProperty('--reveal-transform-duration', '0.8s');
+        }
+
+        const vector = pickRandomRevealVector();
+        const isDiagonal = vector.x !== 0 && vector.y !== 0;
+        const diagonalShift = isDiagonal ? Math.round(revealShift * 0.78) : revealShift;
+        el.style.setProperty('--reveal-x', (vector.x * diagonalShift) + 'px');
+        el.style.setProperty('--reveal-y', (vector.y * diagonalShift) + 'px');
     });
 
     if (prefersReducedMotion) {
@@ -340,7 +419,7 @@
     ].join(', '));
 
     staggerContainers.forEach(container => {
-        const children = container.querySelectorAll('.reveal-up, .auto-pop');
+        const children = container.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .auto-pop');
         children.forEach((child, i) => {
             if (!child.style.getPropertyValue('--delay') && !child.style.getPropertyValue('--reveal-delay')) {
                 child.style.setProperty('--reveal-delay', (i * 0.12) + 's');

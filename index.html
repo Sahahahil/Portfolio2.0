@@ -11,12 +11,17 @@
 </head>
 <body>
 
+    <div class="site-loader" id="site-loader" aria-hidden="true">
+        <div class="loader-grid"></div>
+        <div class="loader-content">
+            <div class="loader-mark">SD</div>
+            <div class="loader-line"><span></span></div>
+            <p>Booting portfolio experience</p>
+        </div>
+    </div>
+
     <aside class="progress-rail" aria-label="Section progress">
         <div class="progress-rail-line"><span class="progress-rail-fill" id="progress-fill"></span></div>
-        <a href="#home" class="rail-dot active" data-rail-target="home"><span>Intro</span></a>
-        <a href="#experience" class="rail-dot" data-rail-target="experience"><span>Research</span></a>
-        <a href="#portfolio" class="rail-dot" data-rail-target="portfolio"><span>AI Models</span></a>
-        <a href="#contact" class="rail-dot" data-rail-target="contact"><span>Contact</span></a>
     </aside>
 
     <!-- Cursor -->
@@ -41,9 +46,10 @@
         </ul>
 
         <div class="nav-actions">
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                <span class="theme-icon sun">&#9675;</span>
-                <span class="theme-icon moon">&#9679;</span>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" aria-pressed="true">
+                <span class="theme-icon sun" aria-hidden="true">&#9728;</span>
+                <span class="theme-wheel" aria-hidden="true"></span>
+                <span class="theme-icon moon" aria-hidden="true">&#9790;</span>
             </button>
             <a href="Resume.pdf" class="nav-cta" download>Resume</a>
             <button class="ham-menu" id="ham-menu" aria-label="Menu">
@@ -161,7 +167,7 @@
             <div class="about-grid">
                 <div class="about-text reveal-left">
                     <h2 class="section-title">Engineering the Future<br><em>One Model at a Time</em></h2>
-                    <p>I'm a Computer Engineering student at <strong>Khwopa College of Engineering</strong>, deeply invested in artificial intelligence, machine vision, and data-driven systems. My work spans from deepfake detection architectures to AI-powered travel assistants.</p>
+                    <p>I'm a Computer Engineering student, deeply invested in artificial intelligence, machine vision, and data-driven systems. My work spans from deepfake detection architectures to AI-powered travel assistants.</p>
                     <p>I believe that meaningful engineering comes from understanding both the underlying mathematics and the real-world context. Every project I take on is a step toward building systems that genuinely help people.</p>
                     <a href="#portfolio" class="btn-primary">See My Work</a>
                 </div>
@@ -262,7 +268,6 @@
                     <p class="skill-desc">Full-stack development foundations and essential engineering tools.</p>
                     <div class="tags">
                         <span class="tag">FastAPI</span>
-                        <span class="tag">React.js</span>
                         <span class="tag">MySQL</span>
                         <span class="tag">Git</span>
                         <span class="tag">LaTeX</span>
