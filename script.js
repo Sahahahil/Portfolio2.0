@@ -59,9 +59,27 @@
 
     if (stored) {
         htmlEl.setAttribute('data-theme', stored);
-    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    } else {
         htmlEl.setAttribute('data-theme', 'light');
     }
+
+    /* ---- Icon animation registration ---- */
+    const animatedIconSelectors = [
+        '.theme-icon',
+        '.social-link svg',
+        '.contact-item-icon svg',
+        '.detail-icon',
+        '.badge-icon',
+        '.project-link-icon',
+        '.contact-arrow',
+        '.mobile-close',
+        '.logo-initials'
+    ];
+
+    document.querySelectorAll(animatedIconSelectors.join(', ')).forEach((icon, index) => {
+        icon.classList.add('icon-animated');
+        icon.style.setProperty('--icon-order', String(index % 14));
+    });
 
     syncThemeToggle(htmlEl.getAttribute('data-theme') || 'dark');
 
@@ -74,7 +92,7 @@
     });
 
     /* ---- Custom Cursor ---- */
-    const enableCustomCursor = true;
+    const enableCustomCursor = false;
     const cursor = enableCustomCursor ? document.getElementById('cursor') : null;
     const follower = enableCustomCursor ? document.getElementById('cursor-follower') : null;
     if (!enableCustomCursor) {
@@ -512,6 +530,25 @@
                     starsEl.textContent = '★ --';
                 });
         }
+
+        if (!card.querySelector('.project-cta-row')) {
+            const ctaRow = document.createElement('div');
+            ctaRow.className = 'project-cta-row';
+
+            const chip = document.createElement('span');
+            chip.className = 'project-cta-chip';
+            chip.textContent = 'Project Snapshot';
+
+            const ctaLink = document.createElement('a');
+            ctaLink.className = 'project-cta-link';
+            ctaLink.href = link.href;
+            ctaLink.target = '_blank';
+            ctaLink.rel = 'noopener';
+            ctaLink.textContent = 'View Repository';
+
+            ctaRow.append(chip, ctaLink);
+            card.appendChild(ctaRow);
+        }
     });
 
     /* ---- Project card smooth morph panel ---- */
@@ -760,37 +797,7 @@
     }
 
     /* ---- Hover tilt on project cards ---- */
-    if (enableHeavyFx) {
-        document.querySelectorAll('.project-card, .skill-card, .achievement-card').forEach(card => {
-            let tiltFrame = null;
-            let pendingX = 0;
-            let pendingY = 0;
-
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                pendingX = e.clientX - rect.left;
-                pendingY = e.clientY - rect.top;
-
-                if (tiltFrame !== null) return;
-                tiltFrame = requestAnimationFrame(() => {
-                    const cx = rect.width / 2;
-                    const cy = rect.height / 2;
-                    const dx = (pendingX - cx) / cx;
-                    const dy = (pendingY - cy) / cy;
-                    card.style.transform = `translateY(-4px) perspective(800px) rotateX(${-dy * 2}deg) rotateY(${dx * 2}deg)`;
-                    tiltFrame = null;
-                });
-            });
-
-            card.addEventListener('mouseleave', () => {
-                if (tiltFrame !== null) {
-                    cancelAnimationFrame(tiltFrame);
-                    tiltFrame = null;
-                }
-                card.style.transform = '';
-            });
-        });
-    }
+    /* Hover tilt effect removed for cleaner interaction */
 
     /* ---- Number counter animation for stats ---- */
     const statNumbers = document.querySelectorAll('.stat-number');
