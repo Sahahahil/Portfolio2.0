@@ -160,7 +160,7 @@
                 const rect = btn.getBoundingClientRect();
                 const dx = e.clientX - (rect.left + rect.width / 2);
                 const dy = e.clientY - (rect.top + rect.height / 2);
-                btn.style.transform = `translate(${dx * 0.15}px, ${dy * 0.15}px)`;
+                btn.style.transform = `translate(${dx * 0.06}px, ${dy * 0.06}px)`;
             });
             btn.addEventListener('mouseleave', () => {
                 btn.style.transform = '';
@@ -396,9 +396,14 @@
             el.style.setProperty('--reveal-transform-duration', '0.8s');
         }
 
-        const vector = pickRandomRevealVector();
-        const isDiagonal = vector.x !== 0 && vector.y !== 0;
-        const diagonalShift = isDiagonal ? Math.round(revealShift * 0.78) : revealShift;
+        let vector = { x: 0, y: 1 };
+        if (el.classList.contains('reveal-left')) {
+            vector = { x: -1, y: 0 };
+        } else if (el.classList.contains('reveal-right')) {
+            vector = { x: 1, y: 0 };
+        }
+        
+        const diagonalShift = revealShift;
         el.style.setProperty('--reveal-x', (vector.x * diagonalShift) + 'px');
         el.style.setProperty('--reveal-y', (vector.y * diagonalShift) + 'px');
     });

@@ -1,0 +1,16 @@
+# Ignore the Next.js remnants and local dependencies
+node_modules/
+.next/
+out/
+app/
+components/
+lib/
+
+# Ignore package locks if you want a purely static repo
+package-lock.json
+
+# System junk
+.DS_Store
+Thumbs.db
+
+# Keep the rest: index.html, style.css, script.js, CNAME, and assets
