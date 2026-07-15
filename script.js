@@ -25,7 +25,6 @@
             document.body.classList.remove('is-loading');
         };
 
-        // Keep a timeout fallback in case animation events are blocked.
         siteLoader.addEventListener('animationend', finalize, { once: true });
         window.setTimeout(finalize, 800);
     };
@@ -52,18 +51,21 @@
 
     function syncThemeToggle(theme) {
         if (!themeToggle) return;
-        const isDark = theme === 'dark';
-        themeToggle.setAttribute('aria-pressed', String(isDark));
-        themeToggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
+        themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 
-    if (stored) {
-        htmlEl.setAttribute('data-theme', stored);
-    } else {
-        htmlEl.setAttribute('data-theme', 'light');
-    }
+    htmlEl.setAttribute('data-theme', stored || 'light');
+    syncThemeToggle(htmlEl.getAttribute('data-theme') || 'dark');
 
-    /* ---- Icon animation registration ---- */
+    themeToggle?.addEventListener('click', () => {
+        const next = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        htmlEl.setAttribute('data-theme', next);
+        localStorage.setItem('portfolio-theme', next);
+        syncThemeToggle(next);
+    });
+
+    /* ---- Icon animation ---- */
     const animatedIconSelectors = [
         '.theme-icon',
         '.social-link svg',
@@ -81,76 +83,30 @@
         icon.style.setProperty('--icon-order', String(index % 14));
     });
 
-    syncThemeToggle(htmlEl.getAttribute('data-theme') || 'dark');
+    /* ---- Cursor: hidden by default ---- */
+    document.getElementById('cursor')?.setAttribute('hidden', '');
+    document.getElementById('cursor-follower')?.setAttribute('hidden', '');
 
-    themeToggle?.addEventListener('click', () => {
-        const current = htmlEl.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        htmlEl.setAttribute('data-theme', next);
-        localStorage.setItem('portfolio-theme', next);
-        syncThemeToggle(next);
-    });
-
-    /* ---- Custom Cursor ---- */
-    const enableCustomCursor = false;
-    const cursor = enableCustomCursor ? document.getElementById('cursor') : null;
-    const follower = enableCustomCursor ? document.getElementById('cursor-follower') : null;
-    if (!enableCustomCursor) {
-        document.getElementById('cursor')?.setAttribute('hidden', 'hidden');
-        document.getElementById('cursor-follower')?.setAttribute('hidden', 'hidden');
-    }
+    /* ---- Scroll tracking ---- */
     const progressFill = document.getElementById('progress-fill');
-    const railDots = document.querySelectorAll('.rail-dot');
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-    let mouseFrame = null;
+
     const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-    const isSmallScreen = window.matchMedia('(max-width: 1024px)').matches;
-    const enableHeavyFx = !prefersReducedMotion && !isCoarsePointer && !isSmallScreen;
+    const enableHeavyFx = !prefersReducedMotion && !isCoarsePointer && window.matchMedia('(max-width: 1024px)').matches;
+
+    let mouseX = 0, mouseY = 0;
+    let mxRaf = null;
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         if (!enableHeavyFx) return;
-        if (mouseFrame === null) {
-            mouseFrame = requestAnimationFrame(() => {
-                document.body.style.setProperty('--mx', mouseX + 'px');
-                document.body.style.setProperty('--my', mouseY + 'px');
-                if (cursor) {
-                    cursor.style.left = mouseX + 'px';
-                    cursor.style.top = mouseY + 'px';
-                }
-                mouseFrame = null;
-            });
-        }
-    });
-
-    function animateCursor() {
-        if (prefersReducedMotion || !follower) return;
-        if (follower) {
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-            follower.style.left = followerX + 'px';
-            follower.style.top = followerY + 'px';
-        }
-        requestAnimationFrame(animateCursor);
-    }
-    if (follower) {
-        animateCursor();
-    }
-
-    if (enableCustomCursor) {
-        document.querySelectorAll('a, button, [role="button"]').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                if (cursor) { cursor.style.width = '16px'; cursor.style.height = '16px'; }
-                if (follower) { follower.style.width = '48px'; follower.style.height = '48px'; }
-            });
-            el.addEventListener('mouseleave', () => {
-                if (cursor) { cursor.style.width = '8px'; cursor.style.height = '8px'; }
-                if (follower) { follower.style.width = '32px'; follower.style.height = '32px'; }
-            });
+        if (mxRaf !== null) return;
+        mxRaf = requestAnimationFrame(() => {
+            document.body.style.setProperty('--mx', mouseX + 'px');
+            document.body.style.setProperty('--my', mouseY + 'px');
+            mxRaf = null;
         });
-    }
+    });
 
     /* ---- Magnetic buttons ---- */
     if (enableHeavyFx) {
@@ -171,74 +127,45 @@
     /* ---- Navbar scroll ---- */
     const navbar = document.getElementById('navbar');
     const scrollThreshold = 60;
-
-    /* ---- Active nav link ---- */
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     const heroGlow = document.querySelector('.hero-glow');
-    let railRanges = [];
     let scrollRaf = null;
-
-    function recomputeRailRanges() {
-        railRanges = Array.from(railDots).map(dot => {
-            const id = dot.getAttribute('data-rail-target');
-            const section = id ? document.getElementById(id) : null;
-            if (!section) return { dot, top: Infinity, bottom: -Infinity };
-            const top = section.offsetTop - 140;
-            const bottom = top + section.offsetHeight;
-            return { dot, top, bottom };
-        });
-    }
 
     function highlightActiveSection() {
         let current = '';
-        const offset = 200;
         sections.forEach(section => {
-            if (window.scrollY >= section.offsetTop - offset) {
+            if (window.scrollY >= section.offsetTop - 200) {
                 current = section.getAttribute('id');
             }
         });
         navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
         });
     }
 
     function handleScroll() {
-        const scrollY = window.scrollY;
-        if (window.scrollY > scrollThreshold) {
-            navbar?.classList.add('scrolled');
-        } else {
-            navbar?.classList.remove('scrolled');
-        }
+        navbar?.classList.toggle('scrolled', window.scrollY > scrollThreshold);
         highlightActiveSection();
 
         const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1);
-        const progress = (scrollY / maxScroll) * 100;
         if (progressFill) {
-            progressFill.style.height = Math.max(0, Math.min(100, progress)) + '%';
+            progressFill.style.height = (window.scrollY / maxScroll * 100) + '%';
         }
-
-        railRanges.forEach(({ dot, top, bottom }) => {
-            dot.classList.toggle('active', scrollY >= top && scrollY < bottom);
-        });
 
         if (enableHeavyFx && heroGlow) {
-            heroGlow.style.transform = `translateY(${scrollY * 0.12}px)`;
+            heroGlow.style.transform = `translateY(${window.scrollY * 0.12}px)`;
         }
     }
-    const onScroll = () => {
+
+    window.addEventListener('scroll', () => {
         if (scrollRaf !== null) return;
         scrollRaf = requestAnimationFrame(() => {
             handleScroll();
             scrollRaf = null;
         });
-    };
-    recomputeRailRanges();
-    window.addEventListener('resize', recomputeRailRanges, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
+    }, { passive: true });
+
     handleScroll();
 
     /* ---- Smooth scroll for all anchor links ---- */
@@ -248,8 +175,7 @@
             const target = document.getElementById(id);
             if (target) {
                 e.preventDefault();
-                const offset = 80;
-                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                const top = target.getBoundingClientRect().top + window.scrollY - 80;
                 window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
                 closeMobileMenu();
             }
@@ -279,205 +205,129 @@
         document.body.style.overflow = '';
     }
 
-    // Safety reset for refresh/back-forward cache restores.
     closeMobileMenu();
     projectExpandOverlay?.classList.remove('active');
 
     hamMenu?.addEventListener('click', () => {
-        if (mobileMenu?.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
-        }
+        mobileMenu?.classList.contains('active') ? closeMobileMenu() : openMobileMenu();
     });
     mobileClose?.addEventListener('click', closeMobileMenu);
     mobileOverlay?.addEventListener('click', closeMobileMenu);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMobileMenu();
-    });
+    /* ---- Scroll Reveal — Directional Awareness ---- */
+    const autoPopSelectors = [
+        'section .section-label', 'section .section-title', 'section .section-sub',
+        '.about .detail-card', '.experience .timeline-item', '.education .edu-row',
+        '.achievements .achievement-card', '.certifications .cert-row',
+        '.contact .contact-item', '.contact .form-group',
+        '.contact .contact-form .btn-primary', '.footer .footer-left', '.footer .footer-right'
+    ].join(', ');
 
-    /* ---- Scroll Reveal ---- */
-    const autoPopTargets = document.querySelectorAll([
-        'section .section-label',
-        'section .section-title',
-        'section .section-sub',
-        '.about .detail-card',
-        '.experience .timeline-item',
-        '.education .edu-row',
-        '.achievements .achievement-card',
-        '.certifications .cert-row',
-        '.contact .contact-item',
-        '.contact .form-group',
-        '.contact .contact-form .btn-primary',
-        '.footer .footer-left',
-        '.footer .footer-right'
-    ].join(', '));
-
-    autoPopTargets.forEach((el) => {
-        if (el.closest('.projects-grid.bento-grid .project-card')) return;
-        if (
-            el.classList.contains('reveal-up') ||
-            el.classList.contains('reveal-left') ||
-            el.classList.contains('reveal-right') ||
-            el.classList.contains('scroll-reveal')
-        ) {
-            return;
+    document.querySelectorAll(autoPopSelectors).forEach(el => {
+        if (!el.closest('.projects-grid.bento-grid .project-card') &&
+            !el.classList.contains('reveal-up') && !el.classList.contains('reveal-left') &&
+            !el.classList.contains('reveal-right') && !el.classList.contains('scroll-reveal')) {
+            el.classList.add('auto-pop');
         }
-        el.classList.add('auto-pop');
     });
 
-    const allRevealElements = document.querySelectorAll(
+    const revealElements = Array.from(document.querySelectorAll(
         '.reveal-up, .reveal-left, .reveal-right, .auto-pop'
-    );
-    const revealElements = Array.from(allRevealElements).filter(
-        el => !el.closest('.projects-grid.bento-grid')
-    );
-    const revealDirections = [
-        { x: 0, y: -1 },   // top
-        { x: 0, y: 1 },    // bottom
-        { x: -1, y: 0 },   // left
-        { x: 1, y: 0 },    // right
-        { x: -1, y: -1 },  // top-left
-        { x: 1, y: -1 },   // top-right
-        { x: -1, y: 1 },   // bottom-left
-        { x: 1, y: 1 }     // bottom-right
-    ];
+    ));
 
-    function pickRandomRevealVector() {
-        return revealDirections[Math.floor(Math.random() * revealDirections.length)];
-    }
-
+    // Assign initial animation direction class
     revealElements.forEach((el) => {
         el.classList.add('scroll-reveal');
-        const existingDelay = el.style.getPropertyValue('--delay');
-        if (existingDelay && !el.style.getPropertyValue('--reveal-delay')) {
-            el.style.setProperty('--reveal-delay', existingDelay);
-        }
-
-        const sectionId = el.closest('section')?.id;
-        let revealShift = 34;
-        if (sectionId === 'home') {
-            revealShift = 42;
-            el.style.setProperty('--reveal-scale', '0.965');
-            el.style.setProperty('--reveal-opacity-duration', '0.64s');
-            el.style.setProperty('--reveal-transform-duration', '0.76s');
-        } else if (sectionId === 'education' || sectionId === 'certifications') {
-            revealShift = 26;
-            el.style.setProperty('--reveal-scale', '0.985');
-            el.style.setProperty('--reveal-opacity-duration', '0.55s');
-            el.style.setProperty('--reveal-transform-duration', '0.62s');
-        } else if (sectionId === 'achievements' || sectionId === 'portfolio') {
-            revealShift = 50;
-            el.style.setProperty('--reveal-scale', '0.94');
-            el.style.setProperty('--reveal-opacity-duration', '0.72s');
-            el.style.setProperty('--reveal-transform-duration', '0.82s');
-        } else if (sectionId === 'experience' || sectionId === 'skills') {
-            revealShift = 38;
-            el.style.setProperty('--reveal-scale', '0.965');
-            el.style.setProperty('--reveal-opacity-duration', '0.62s');
-            el.style.setProperty('--reveal-transform-duration', '0.72s');
-        } else if (sectionId === 'about' || sectionId === 'contact') {
-            revealShift = 34;
-            el.style.setProperty('--reveal-scale', '0.97');
-            el.style.setProperty('--reveal-opacity-duration', '0.6s');
-            el.style.setProperty('--reveal-transform-duration', '0.7s');
+        if (el.classList.contains('reveal-right')) {
+            el.classList.add('from-right');
+        } else if (el.classList.contains('reveal-up')) {
+            el.classList.add('from-bottom');
         } else {
-            revealShift = 30;
-            el.style.setProperty('--reveal-scale', '0.975');
-            el.style.setProperty('--reveal-opacity-duration', '0.58s');
-            el.style.setProperty('--reveal-transform-duration', '0.68s');
+            el.classList.add('from-left'); // default for .auto-pop
         }
-
-        // About section keeps a slightly stronger reveal distance.
-        if (sectionId === 'about') {
-            revealShift = 56;
-            el.style.setProperty('--reveal-opacity-duration', '0.66s');
-            el.style.setProperty('--reveal-transform-duration', '0.8s');
-        }
-
-        let vector = { x: 0, y: 1 };
-        if (el.classList.contains('reveal-left')) {
-            vector = { x: -1, y: 0 };
-        } else if (el.classList.contains('reveal-right')) {
-            vector = { x: 1, y: 0 };
-        }
-        
-        const diagonalShift = revealShift;
-        el.style.setProperty('--reveal-x', (vector.x * diagonalShift) + 'px');
-        el.style.setProperty('--reveal-y', (vector.y * diagonalShift) + 'px');
     });
 
-    if (prefersReducedMotion) {
-        revealElements.forEach(el => el.classList.add('active'));
-    } else {
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active');
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        });
+    // Track scroll direction (debounced)
+    let lastScrollY = 0;
+    let scrollDir = 'down';
+    let rafPending = false;
 
-        revealElements.forEach(el => revealObserver.observe(el));
+    function updateScrollDir() {
+        scrollDir = window.scrollY > lastScrollY ? 'down' : 'up';
+        lastScrollY = window.scrollY;
+        rafPending = false;
     }
 
-    /* ---- Staggered reveal for grid children ---- */
+    window.addEventListener('scroll', () => {
+        if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(updateScrollDir);
+        }
+    }, { passive: true });
+
+    if (!prefersReducedMotion) {
+        // Fire immediately for elements already visible on page load — no animation
+        // since they're already in view. Mark them visible immediately.
+        revealElements.forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0) {
+                el.classList.add('is-visible');
+            }
+        });
+
+        // Observer: direction is set when element FIRST enters viewport
+        // Down scroll → animate from left. Up scroll → animate from right.
+        // Once direction is set it stays (no re-triggering per scroll direction).
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const el = entry.target;
+                if (entry.isIntersecting) {
+                    el.classList.remove('from-left', 'from-right', 'from-bottom');
+                    el.classList.add(scrollDir === 'down' ? 'from-left' : 'from-right');
+                    el.classList.add('is-visible');
+                } else {
+                    el.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => observer.observe(el));
+    } else {
+        // Reduced motion: show all immediately, no animation
+        revealElements.forEach(el => {
+            el.classList.add('is-visible');
+            el.classList.add('from-left');
+        });
+    }
+
+    /* ---- Stagger delays for grid containers ---- */
     const staggerContainers = document.querySelectorAll([
-        '.skills-grid',
-        '.projects-grid:not(.bento-grid)',
-        '.achievements-grid',
-        '.education-list',
-        '.certs-grid',
-        '.timeline',
-        '.about-details',
-        '.contact-info',
-        '.contact-form'
+        '.skills-grid', '.projects-grid.bento-grid', '.achievements-grid',
+        '.education-list', '.certs-grid', '.timeline',
+        '.about-details', '.contact-info', '.contact-form'
     ].join(', '));
 
     staggerContainers.forEach(container => {
-        const children = container.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .auto-pop');
-        children.forEach((child, i) => {
-            if (!child.style.getPropertyValue('--delay') && !child.style.getPropertyValue('--reveal-delay')) {
-                child.style.setProperty('--reveal-delay', (i * 0.12) + 's');
-            }
+        container.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .auto-pop').forEach((child, i) => {
+            child.style.setProperty('--reveal-delay', (i * 0.08) + 's');
         });
     });
 
-    /* ---- Skill card edge glow tracking ---- */
+    /* ---- Skill card edge glow ---- */
     document.querySelectorAll('.skill-card').forEach((card) => {
         card.addEventListener('mousemove', (e) => {
             if (!enableHeavyFx) return;
             const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            card.style.setProperty('--sx', x + '%');
-            card.style.setProperty('--sy', y + '%');
+            card.style.setProperty('--sx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+            card.style.setProperty('--sy', ((e.clientY - rect.top) / rect.height * 100) + '%');
         });
     });
 
-    /* ---- Live stack status ticker ---- */
-    const liveStackStatus = document.getElementById('live-stack-status');
-    const liveStackText = document.getElementById('live-stack-text');
-    if (liveStackStatus && !prefersReducedMotion) {
-        let ticks = 0;
-        setInterval(() => {
-            ticks += 1;
-            if (liveStackText) {
-                liveStackText.textContent = ` synced ${ticks * 5}s ago`;
-            }
-        }, 5000);
-    }
-
-    /* ---- Skeleton + GitHub star fetch ---- */
+    /* ---- GitHub stars + CTA row ---- */
     const projectCards = document.querySelectorAll('.project-card');
     const repoStarsCache = new Map();
+
     projectCards.forEach((card) => {
         const header = card.querySelector('.project-header');
         const link = card.querySelector('.project-link-icon[href*="github.com"]');
@@ -488,75 +338,46 @@
         starsEl.textContent = '...';
         header.insertBefore(starsEl, link);
 
-        const repoPath = (() => {
-            try {
-                const url = new URL(link.href);
-                const [owner, repo] = url.pathname.split('/').filter(Boolean);
-                return owner && repo ? `${owner}/${repo.replace(/\.git$/, '')}` : null;
-            } catch {
-                return null;
-            }
-        })();
+        let repoPath;
+        try {
+            const [owner, repo] = new URL(link.href).pathname.split('/').filter(Boolean);
+            repoPath = owner && repo ? `${owner}/${repo.replace(/\.git$/, '')}` : null;
+        } catch { repoPath = null; }
 
-        if (!repoPath) {
-            starsEl.classList.remove('skeleton');
-            starsEl.textContent = 'n/a';
-            return;
-        }
+        if (!repoPath) { starsEl.classList.remove('skeleton'); starsEl.textContent = 'n/a'; return; }
 
         const renderStars = (count) => {
             starsEl.classList.remove('skeleton');
             starsEl.textContent = `★ ${count}`;
         };
 
-        if (repoStarsCache.has(repoPath)) {
-            renderStars(repoStarsCache.get(repoPath));
-            return;
-        }
+        if (repoStarsCache.has(repoPath)) { renderStars(repoStarsCache.get(repoPath)); return; }
 
         if (prefersReducedMotion) {
-            starsEl.classList.remove('skeleton');
-            starsEl.textContent = '★ --';
+            starsEl.classList.remove('skeleton'); starsEl.textContent = '★ --';
         } else {
             fetch(`https://api.github.com/repos/${repoPath}`)
-                .then((res) => res.ok ? res.json() : null)
-                .then((data) => {
-                    const stars = data?.stargazers_count;
-                    if (typeof stars === 'number') {
-                        repoStarsCache.set(repoPath, stars);
-                        renderStars(stars);
-                    } else {
-                        starsEl.classList.remove('skeleton');
-                        starsEl.textContent = '★ --';
-                    }
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (typeof data?.stargazers_count === 'number') {
+                        repoStarsCache.set(repoPath, data.stargazers_count);
+                        renderStars(data.stargazers_count);
+                    } else { starsEl.classList.remove('skeleton'); starsEl.textContent = '★ --'; }
                 })
-                .catch(() => {
-                    starsEl.classList.remove('skeleton');
-                    starsEl.textContent = '★ --';
-                });
+                .catch(() => { starsEl.classList.remove('skeleton'); starsEl.textContent = '★ --'; });
         }
 
         if (!card.querySelector('.project-cta-row')) {
             const ctaRow = document.createElement('div');
             ctaRow.className = 'project-cta-row';
-
-            const chip = document.createElement('span');
-            chip.className = 'project-cta-chip';
-            chip.textContent = 'Project Snapshot';
-
-            const ctaLink = document.createElement('a');
-            ctaLink.className = 'project-cta-link';
-            ctaLink.href = link.href;
-            ctaLink.target = '_blank';
-            ctaLink.rel = 'noopener';
-            ctaLink.textContent = 'View Repository';
-
-            ctaRow.append(chip, ctaLink);
+            ctaRow.innerHTML = `
+                <span class="project-cta-chip">Project Snapshot</span>
+                <a class="project-cta-link" href="${link.href}" target="_blank" rel="noopener">View Repository</a>`;
             card.appendChild(ctaRow);
         }
     });
 
-    /* ---- Project card smooth morph panel ---- */
+    /* ---- Project expand panel (GSAP) ---- */
     const expandOverlay = document.getElementById('project-expand-overlay');
     const expandBackdrop = document.getElementById('project-expand-backdrop');
     const expandPanel = document.getElementById('project-expand-panel');
@@ -564,8 +385,7 @@
     const closeExpandPanel = () => {
         if (!expandOverlay || !expandBackdrop || !expandPanel) return;
         gsap.to([expandPanel, expandBackdrop], {
-            opacity: 0,
-            duration: 0.25,
+            opacity: 0, duration: 0.25,
             onComplete: () => {
                 expandOverlay.classList.remove('active');
                 expandPanel.innerHTML = '';
@@ -584,7 +404,7 @@
             const title = card.querySelector('h3')?.textContent || 'Project';
             const type = card.querySelector('.project-type')?.textContent || '';
             const desc = card.querySelector('p')?.textContent || '';
-            const tags = Array.from(card.querySelectorAll('.tag')).map(tag => `<span class="tag">${tag.textContent}</span>`).join('');
+            const tags = Array.from(card.querySelectorAll('.tag')).map(t => `<span class="tag">${t.textContent}</span>`).join('');
             const repo = card.querySelector('.project-link-icon')?.getAttribute('href') || '#';
 
             expandPanel.innerHTML = `
@@ -593,29 +413,21 @@
                 <h3>${title}</h3>
                 <p>${desc}</p>
                 <div class="tags">${tags}</div>
-                <p style="margin-top:1.2rem;"><a class="btn-secondary" href="${repo}" target="_blank" rel="noopener">Open Repository</a></p>
-            `;
+                <p style="margin-top:1.2rem;"><a class="btn-secondary" href="${repo}" target="_blank" rel="noopener">Open Repository</a></p>`;
 
             expandOverlay.classList.add('active');
             const panelRect = expandPanel.getBoundingClientRect();
             gsap.set(expandBackdrop, { opacity: 0 });
             gsap.set(expandPanel, {
                 transformOrigin: 'top left',
-                x: rect.left - panelRect.left,
-                y: rect.top - panelRect.top,
-                scaleX: rect.width / panelRect.width,
-                scaleY: rect.height / panelRect.height,
+                x: rect.left - panelRect.left, y: rect.top - panelRect.top,
+                scaleX: rect.width / panelRect.width, scaleY: rect.height / panelRect.height,
                 opacity: 0.5
             });
             gsap.to(expandBackdrop, { opacity: 1, duration: 0.3 });
             gsap.to(expandPanel, {
-                x: 0,
-                y: 0,
-                scaleX: 1,
-                scaleY: 1,
-                opacity: 1,
-                duration: 0.55,
-                ease: 'power3.out'
+                x: 0, y: 0, scaleX: 1, scaleY: 1, opacity: 1,
+                duration: 0.55, ease: 'power3.out'
             });
 
             expandPanel.querySelector('.project-expand-close')?.addEventListener('click', closeExpandPanel, { once: true });
@@ -623,172 +435,46 @@
     });
 
     expandBackdrop?.addEventListener('click', closeExpandPanel);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeExpandPanel();
-        }
-    });
-
-    /* ---- Bento Grid reveal (GSAP + ScrollTrigger) ---- */
-    const bentoProjectCards = document.querySelectorAll('.projects-grid.bento-grid .project-card');
-    if (bentoProjectCards.length) {
-        if (prefersReducedMotion || !enableHeavyFx) {
-            bentoProjectCards.forEach(card => {
-                card.style.opacity = '1';
-                card.style.transform = 'none';
-            });
-        } else if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-
-            ScrollTrigger.batch(bentoProjectCards, {
-                start: 'top 86%',
-                end: 'bottom 20%',
-                onEnter: (batch) => {
-                    gsap.fromTo(batch, {
-                        opacity: 0,
-                        y: 48,
-                        scale: 0.92,
-                        rotateX: -8,
-                        transformOrigin: '50% 100%'
-                    }, {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        rotateX: 0,
-                        duration: 0.85,
-                        ease: 'back.out(1.45)',
-                        stagger: 0.1,
-                        overwrite: 'auto'
-                    });
-                },
-                onEnterBack: (batch) => {
-                    gsap.fromTo(batch, {
-                        opacity: 0,
-                        y: -36,
-                        scale: 0.94,
-                        rotateX: 6,
-                        transformOrigin: '50% 100%'
-                    }, {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        rotateX: 0,
-                        duration: 0.85,
-                        ease: 'back.out(1.45)',
-                        stagger: 0.1,
-                        overwrite: 'auto'
-                    });
-                },
-                onLeave: (batch) => {
-                    gsap.to(batch, {
-                        opacity: 0,
-                        y: -28,
-                        scale: 0.95,
-                        rotateX: 4,
-                        duration: 0.35,
-                        ease: 'power2.in',
-                        stagger: 0.05,
-                        overwrite: 'auto'
-                    });
-                },
-                onLeaveBack: (batch) => {
-                    gsap.to(batch, {
-                        opacity: 0,
-                        y: 36,
-                        scale: 0.94,
-                        rotateX: -6,
-                        duration: 0.35,
-                        ease: 'power2.in',
-                        stagger: 0.05,
-                        overwrite: 'auto'
-                    });
-                }
-            });
-        }
-    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeExpandPanel(); });
 
     /* ---- Contact Form (EmailJS) ---- */
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
-    // EmailJS Configuration
-    const EMAILJS_PUBLIC_KEY = 'W7TeFH4Ha4f7e5QZw'; // From EmailJS Account settings
-    const EMAILJS_SERVICE_ID = 'service_1w3me34'; // Gmail service ID from EmailJS
-    const EMAILJS_TEMPLATE_ID = 'template_9h7btvk'; // Template ID from EmailJS
-
-    // Initialize EmailJS with public key (using object format for v4)
-    (function initEmailJS() {
-        if (typeof emailjs !== 'undefined') {
-            try {
-                emailjs.init({
-                    publicKey: EMAILJS_PUBLIC_KEY
-                });
-                console.log('EmailJS initialized successfully with public key:', EMAILJS_PUBLIC_KEY);
-            } catch (err) {
-                console.error('EmailJS initialization error:', err);
-            }
-        } else {
-            console.warn('EmailJS library not loaded yet');
-        }
-    })();
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init({ publicKey: 'W7TeFH4Ha4f7e5QZw' });
+    }
 
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const name = form.querySelector('input[name="from_name"]')?.value.trim();
+        const email = form.querySelector('input[name="reply_to"]')?.value.trim();
+        const message = form.querySelector('textarea[name="message"]')?.value.trim();
 
-        const nameInput = form.querySelector('input[name="from_name"]');
-        const emailInput = form.querySelector('input[name="reply_to"]');
-        const messageInput = form.querySelector('textarea[name="message"]');
-
-        const name = nameInput?.value.trim();
-        const email = emailInput?.value.trim();
-        const message = messageInput?.value.trim();
-
-        // Validation
-        if (!name || !email || !message) {
-            showStatus('error', 'Please fill in all fields.');
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showStatus('error', 'Please enter a valid email address.');
-            return;
-        }
+        if (!name || !email || !message) { showStatus('error', 'Please fill in all fields.'); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showStatus('error', 'Please enter a valid email address.'); return; }
 
         const btn = form.querySelector('button[type="submit"]');
-        const btnText = btn.querySelector('.btn-text');
-        const original = btnText.textContent;
-
-        btn.disabled = true;
-        btnText.textContent = 'Sending…';
+        const btnText = btn?.querySelector('.btn-text');
+        const original = btnText?.textContent;
+        if (btn) btn.disabled = true;
+        if (btnText) btnText.textContent = 'Sending…';
 
         try {
-            if (typeof emailjs !== 'undefined' && typeof emailjs.send === 'function') {
-                // Parameters must match EmailJS template variables exactly
-                const templateParams = {
-                    title: 'New Contact Form Message',  // for {{title}} in subject
-                    name: name,                          // for {{name}} in From Name
-                    email: email,                        // for {{email}} in Reply To
-                    from_name: name,                     // for {{from_name}} in content
-                    reply_to: email,                     // for {{reply_to}} in content
-                    message: message                     // for {{message}} in content
-                };
-                console.log('Sending email with params:', templateParams);
-                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-                console.log('Email sent successfully!', response.status, response.text);
-                showStatus('success', 'Message sent! I\'ll get back to you soon.');
+            if (typeof emailjs?.send === 'function') {
+                await emailjs.send('service_1w3me34', 'template_9h7btvk', {
+                    name, email, from_name: name, reply_to: email, message
+                });
+                showStatus('success', "Message sent! I'll get back to you soon.");
                 form.reset();
             } else {
-                console.error('EmailJS library not available');
-                showStatus('error', 'Email service unavailable. Please email me directly at sahilduwal@gmail.com');
+                showStatus('error', 'Email service unavailable. Reach me at sahilduwal@gmail.com');
             }
-        } catch (err) {
-            console.error('Failed to send email:', err);
-            console.error('Error details:', JSON.stringify(err));
-            showStatus('error', 'Oops — something went wrong. Try emailing me directly at sahilduwal@gmail.com');
+        } catch {
+            showStatus('error', 'Something went wrong. Email me at sahilduwal@gmail.com');
         } finally {
-            btn.disabled = false;
-            btnText.textContent = original;
+            if (btn) btn.disabled = false;
+            if (btnText) btnText.textContent = original || 'Send Message';
         }
     });
 
@@ -796,45 +482,37 @@
         if (!formStatus) return;
         formStatus.textContent = message;
         formStatus.className = 'form-status ' + type;
-        setTimeout(() => {
-            formStatus.className = 'form-status';
-        }, 5000);
+        setTimeout(() => { formStatus.className = 'form-status'; }, 5000);
     }
 
-    /* ---- Hover tilt on project cards ---- */
-    /* Hover tilt effect removed for cleaner interaction */
-
-    /* ---- Number counter animation for stats ---- */
-    const statNumbers = document.querySelectorAll('.stat-number');
-
+    /* ---- Number counter animation ---- */
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const target = parseInt(el.textContent);
-                const suffix = el.textContent.replace(/[0-9]/g, '');
-                let start = 0;
-                const duration = 1500;
-                const step = 16;
-                const increment = target / (duration / step);
-
-                const timer = setInterval(() => {
-                    start += increment;
-                    if (start >= target) {
-                        start = target;
-                        clearInterval(timer);
-                    }
-                    el.textContent = Math.floor(start) + suffix;
-                }, step);
-
-                counterObserver.unobserve(el);
-            }
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.textContent);
+            const suffix = el.textContent.replace(/[0-9]/g, '');
+            let start = 0;
+            const increment = target / (1500 / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                el.textContent = Math.floor(start >= target ? target : start) + suffix;
+                if (start >= target) { clearInterval(timer); counterObserver.unobserve(el); }
+            }, 16);
         });
     }, { threshold: 0.5 });
 
-    statNumbers.forEach(el => counterObserver.observe(el));
+    document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
 
-    /* ---- Role text transition cleanup ---- */
-    // CSS animation handles the role cycling — nothing needed here.
+    /* ---- View More: Research & Development ---- */
+    const viewMoreBtn = document.getElementById('view-more-btn');
+    const projectsGrid = document.querySelector('.projects-grid.bento-grid');
+
+    viewMoreBtn?.addEventListener('click', () => {
+        const expanded = projectsGrid?.classList.toggle('expanded');
+        viewMoreBtn.classList.toggle('expanded', expanded);
+        const btnText = viewMoreBtn.querySelector('.btn-text');
+        if (btnText) btnText.textContent = expanded ? 'Show Less' : 'View More';
+    });
 
 })();
