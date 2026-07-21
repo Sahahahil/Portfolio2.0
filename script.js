@@ -55,7 +55,7 @@
         themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 
-    htmlEl.setAttribute('data-theme', stored || 'light');
+    htmlEl.setAttribute('data-theme', stored || 'dark');
     syncThemeToggle(htmlEl.getAttribute('data-theme') || 'dark');
 
     themeToggle?.addEventListener('click', () => {
