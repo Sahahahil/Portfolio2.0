@@ -28,8 +28,9 @@
  </aside>
 
  <!-- Cursor -->
- <div class="cursor" id="cursor"></div>
- <div class="cursor-follower" id="cursor-follower"></div>
+ <canvas id="cursor-canvas" class="cursor-canvas" aria-hidden="true"></canvas>
+ <div class="cursor" id="cursor" aria-hidden="true"></div>
+ <div class="cursor-follower" id="cursor-follower" aria-hidden="true"></div>
 
  <!-- Navigation -->
  <nav class="navbar" id="navbar">
@@ -167,7 +168,7 @@
    <div class="about-grid">
     <div class="about-text reveal-left">
       <h2 class="section-title">Computer Engineer<br><em>&amp; AI Researcher</em></h2>
-      <p>Computer Engineering student specializing in deep learning architectures, computer vision, and full-stack web systems. Experienced building end-to-end AI pipelines — from dataset curation to model deployment. Passionate about engineering rigorous, real-world solutions at the frontier of AI research.</p>
+      <p>Computer Engineer specializing in deep learning architectures, computer vision, and full-stack web systems. Experienced building end-to-end AI pipelines — from dataset curation to model deployment. Passionate about engineering rigorous, real-world solutions at the frontier of AI research.</p>
       <p>Currently pursuing AI-driven internships, research collaborations, and full-time roles where I can apply technical depth with product-level thinking.</p>
      <a href="#portfolio" class="btn-primary">See My Work</a>
     </div>
@@ -213,17 +214,6 @@
    <h2 class="section-title reveal-up">Technical Skills</h2>
     <p class="section-sub reveal-up">Five domains covering the full ML engineering and web development stack — from low-level systems to production deployment.</p>
 
-   <div class="pipeline-diagram" aria-hidden="true">
-    <div class="pipeline-stage">Programming Languages</div>
-    <div class="pipeline-arrow">→</div>
-    <div class="pipeline-stage">AI, ML & Vision</div>
-    <div class="pipeline-arrow">→</div>
-    <div class="pipeline-stage">Full-Stack Web Development</div>
-    <div class="pipeline-arrow">→</div>
-    <div class="pipeline-stage">Data Science & Databases</div>
-    <div class="pipeline-arrow">→</div>
-    <div class="pipeline-stage">Developer Tools & Frameworks</div>
-   </div>
 
    <div class="skills-grid">
     <div class="skill-card reveal-up" >
@@ -826,24 +816,24 @@
    <h2 class="section-title reveal-up">Academic Background</h2>
 
    <div class="education-list">
-    <div class="edu-row reveal-up" >
-     <div class="edu-year reveal-up" >2022 – 2026</div>
+    <div class="edu-row reveal-up">
+     <div class="edu-year">2022 – 2026</div>
      <div class="edu-body">
-      <div class="edu-degree reveal-up" >Bachelor of Computer Engineering</div>
-      <div class="edu-school reveal-up" >Khwopa College of Engineering, IOE — Libali, Bhaktapur</div>
-      <p class="edu-desc reveal-up" >Pursuing a rigorous Computer Engineering curriculum with emphasis on Artificial Intelligence, Machine Learning, and Software Engineering — completing my final year with hands-on research in intelligent systems and real-world engineering applications.</p>
+      <div class="edu-degree">Bachelor of Computer Engineering</div>
+      <div class="edu-school">Khwopa College of Engineering, IOE — Libali, Bhaktapur</div>
+      <p class="edu-desc">Completed a comprehensive Computer Engineering curriculum with emphasis on Artificial Intelligence, Machine Learning, and Software Engineering — with hands-on research in intelligent systems and real-world engineering applications.</p>
      </div>
-     <div class="edu-badge current reveal-up" >Current</div>
+     <div class="edu-badge">Completed</div>
     </div>
 
-    <div class="edu-row reveal-up" >
-     <div class="edu-year reveal-up" >2019 – 2021</div>
+    <div class="edu-row reveal-up">
+     <div class="edu-year">2019 – 2021</div>
      <div class="edu-body">
-      <div class="edu-degree reveal-up" >Higher Secondary Education (+2), Science</div>
-      <div class="edu-school reveal-up" >Khwopa Secondary School — Dekocha, Bhaktapur</div>
-      <p class="edu-desc reveal-up" >Strengthened foundations in mathematics and sciences.</p>
+      <div class="edu-degree">Higher Secondary Education (+2), Science</div>
+      <div class="edu-school">Khwopa Secondary School — Dekocha, Bhaktapur</div>
+      <p class="edu-desc">Strengthened foundations in mathematics and sciences.</p>
      </div>
-     <div class="edu-badge reveal-up" >Completed</div>
+     <div class="edu-badge">Completed</div>
     </div>
 
    </div>
@@ -883,55 +873,55 @@
    <h2 class="section-title reveal-up">Certifications</h2>
 
    <div class="certs-grid">
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >DataCamp</div>
-     <div class="cert-name reveal-up" >AI Fundamentals</div>
-     <div class="cert-year reveal-up" >2025</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">DataCamp</div>
+     <div class="cert-name">AI Fundamentals</div>
+     <div class="cert-year">2025</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >DataCamp</div>
-     <div class="cert-name reveal-up" >Data Skills for Business</div>
-     <div class="cert-year reveal-up" >2025</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">DataCamp</div>
+     <div class="cert-name">Data Skills for Business</div>
+     <div class="cert-year">2025</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >DataCamp</div>
-     <div class="cert-name reveal-up" >EU AI Act Fundamentals</div>
-     <div class="cert-year reveal-up" >2025</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">DataCamp</div>
+     <div class="cert-name">EU AI Act Fundamentals</div>
+     <div class="cert-year">2025</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >DataCamp</div>
-     <div class="cert-name reveal-up" >Understanding Data Topics</div>
-     <div class="cert-year reveal-up" >2025</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">DataCamp</div>
+     <div class="cert-name">Understanding Data Topics</div>
+     <div class="cert-year">2025</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Cisco Networking Academy</div>
-     <div class="cert-name reveal-up" >Python Essentials 1</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Cisco Networking Academy</div>
+     <div class="cert-name">Python Essentials 1</div>
+     <div class="cert-year">2024</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Cisco Networking Academy</div>
-     <div class="cert-name reveal-up" >Introduction to Cybersecurity</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Cisco Networking Academy</div>
+     <div class="cert-name">Introduction to Cybersecurity</div>
+     <div class="cert-year">2024</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Cisco Networking Academy</div>
-     <div class="cert-name reveal-up" >Introduction to IoT</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Cisco Networking Academy</div>
+     <div class="cert-name">Introduction to IoT</div>
+     <div class="cert-year">2024</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Programiz Pro</div>
-     <div class="cert-name reveal-up" >Learn HTML</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Programiz Pro</div>
+     <div class="cert-name">Learn HTML</div>
+     <div class="cert-year">2024</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Programiz Pro</div>
-     <div class="cert-name reveal-up" >SQL Basics</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Programiz Pro</div>
+     <div class="cert-name">SQL Basics</div>
+     <div class="cert-year">2024</div>
     </div>
-    <div class="cert-row reveal-up" >
-     <div class="cert-org reveal-up" >Programiz Pro</div>
-     <div class="cert-name reveal-up" >Learn Python Basics</div>
-     <div class="cert-year reveal-up" >2024</div>
+    <div class="cert-row reveal-up">
+     <div class="cert-org">Programiz Pro</div>
+     <div class="cert-name">Learn Python Basics</div>
+     <div class="cert-year">2024</div>
     </div>
    </div>
   </div>
