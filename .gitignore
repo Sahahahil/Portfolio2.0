@@ -5,6 +5,11 @@ out/
 app/
 components/
 lib/
+.taste-skill/
+assets/
+docs/
+scripts/
+
 
 # Ignore package locks if you want a purely static repo
 package-lock.json
