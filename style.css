@@ -125,6 +125,23 @@ table { border-collapse: collapse; width: 100%; }
   max-width: 20ch;
 }
 
+/* Accent rule that draws in under each section title. It stays visible without
+   JS; the `.reveal` class (added by script.js) is what hides it until the
+   title scrolls into view. */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  margin-top: 18px;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 620ms var(--ease) 120ms;
+}
+.section-title.reveal::after { transform: scaleX(0); }
+.section-title.reveal.is-visible::after { transform: scaleX(1); }
+
 .section-sub {
   font-size: var(--step-1);
   line-height: 1.5;
@@ -167,6 +184,22 @@ table { border-collapse: collapse; width: 100%; }
 .btn-full { width: 100%; justify-content: center; }
 .btn-icon { transition: transform var(--dur) var(--ease); }
 .btn-primary:hover .btn-icon { transform: translateX(4px); }
+.btn-primary:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* Submit spinner — replaces the arrow while the message is in flight */
+.btn-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: var(--accent-ink);
+  animation: btnSpin 700ms linear infinite;
+}
+.btn-primary.is-sending .btn-spinner { display: block; }
+.btn-primary.is-sending .btn-icon { display: none; }
+@keyframes btnSpin { to { transform: rotate(360deg); } }
 
 /* ---------- Loader ---------- */
 .site-loader {
@@ -561,6 +594,15 @@ body.cursor-active .cursor-follower { opacity: 1; }
 .badge-ai { bottom: 26px; left: -14px; }
 .badge-cv { bottom: 66px; right: -14px; }
 
+/* Slow float on the photo badges — `translate` so it never fights the
+   parallax transform that GSAP puts on the visual column. */
+.badge-ai { animation: badgeFloat 5.4s var(--ease) infinite; }
+.badge-cv { animation: badgeFloat 6.6s var(--ease) 0.9s infinite; }
+@keyframes badgeFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+
 .hero-stats {
   position: relative;
   max-width: var(--container);
@@ -694,11 +736,29 @@ body.cursor-active .cursor-follower { opacity: 1; }
   letter-spacing: 0.01em;
 }
 
+/* Skill-card tags land one by one once the card itself has revealed. */
+.skill-card.reveal .tag {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+}
+.skill-card.is-visible .tag { opacity: 1; transform: none; }
+.skill-card.is-visible .tag:nth-child(1) { transition-delay: 40ms; }
+.skill-card.is-visible .tag:nth-child(2) { transition-delay: 80ms; }
+.skill-card.is-visible .tag:nth-child(3) { transition-delay: 120ms; }
+.skill-card.is-visible .tag:nth-child(4) { transition-delay: 160ms; }
+.skill-card.is-visible .tag:nth-child(5) { transition-delay: 200ms; }
+.skill-card.is-visible .tag:nth-child(6) { transition-delay: 240ms; }
+.skill-card.is-visible .tag:nth-child(7) { transition-delay: 280ms; }
+.skill-card.is-visible .tag:nth-child(8) { transition-delay: 320ms; }
+.skill-card.is-visible .tag:nth-child(9) { transition-delay: 360ms; }
+
 /* ---------- Experience ---------- */
-.timeline { display: grid; gap: 2px; background: var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+.timeline { display: grid; gap: 2px; background: var(--line-soft); border-radius: var(--radius); overflow: hidden; position: relative; }
 .timeline-item {
   background: var(--surface);
   padding: clamp(24px, 3vw, 34px);
+  padding-left: 38px; /* gutter for the spine rail and its node */
   display: grid;
   gap: 10px;
   position: relative;
@@ -738,6 +798,94 @@ body.cursor-active .cursor-follower { opacity: 1; }
   width: 8px; height: 1px;
   background: var(--accent);
 }
+.timeline-sub {
+  order: 5;
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+  display: grid;
+  gap: 10px;
+}
+
+/* ---------- Timeline spine ---------- */
+/* A rail runs down the left of the timeline; --spine (0→1) is written by
+   script.js as the section scrolls past, so the crimson fill tracks the
+   reading position. Each entry carries a node that lights up as it is
+   reached. */
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.timeline::before { background: var(--line); }
+.timeline::after {
+  background: var(--accent);
+  transform: scaleY(var(--spine, 0));
+  transform-origin: top;
+}
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 30px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--muted-2);
+  z-index: 3;
+  transition: background-color 320ms var(--ease), border-color 320ms var(--ease), transform 320ms var(--ease);
+}
+.timeline-item.is-reached::after {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.15);
+}
+
+/* ---------- Timeline sub-entry (collapsible) ---------- */
+.timeline-sub-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 2px 0;
+}
+.timeline-sub-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.timeline-sub-role { font-size: 1rem; font-weight: 500; color: var(--ink-dim); transition: color var(--dur) var(--ease); }
+.timeline-sub-toggle:hover .timeline-sub-role { color: var(--ink); }
+.timeline-sub-icon { position: relative; width: 14px; height: 14px; flex: none; }
+.timeline-sub-icon::before,
+.timeline-sub-icon::after {
+  content: "";
+  position: absolute;
+  background: var(--muted);
+  transition: transform 320ms var(--ease), opacity 320ms var(--ease), background-color var(--dur) var(--ease);
+}
+.timeline-sub-icon::before { left: 0; top: 6px; width: 14px; height: 2px; }
+.timeline-sub-icon::after { left: 6px; top: 0; width: 2px; height: 14px; }
+.timeline-sub-toggle:hover .timeline-sub-icon::before,
+.timeline-sub-toggle:hover .timeline-sub-icon::after { background: var(--accent); }
+.timeline-sub-toggle[aria-expanded="true"] .timeline-sub-icon::after { transform: rotate(90deg); opacity: 0; }
+.timeline-sub-toggle[aria-expanded="true"] .timeline-sub-role { color: var(--accent-text); }
+
+/* The body collapses via the grid-rows 0fr → 1fr trick, so the height
+   animates without a hard-coded height. */
+.timeline-sub-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 420ms var(--ease);
+}
+.timeline-sub-inner { overflow: hidden; min-height: 0; }
+.timeline-sub-toggle[aria-expanded="true"] + .timeline-sub-body { grid-template-rows: 1fr; }
+.timeline-sub-toggle[aria-expanded="true"] + .timeline-sub-body .timeline-sub-inner { padding-top: 12px; }
 
 /* ---------- Projects: master–detail (sliding doors) ---------- */
 .projects {
@@ -770,6 +918,7 @@ body.cursor-active .cursor-follower { opacity: 1; }
 }
 
 .project-tab {
+  position: relative;
   display: grid;
   gap: 5px;
   text-align: left;
@@ -785,6 +934,46 @@ body.cursor-active .cursor-follower { opacity: 1; }
   padding-left: 30px;
 }
 .project-tab[aria-expanded="true"] .project-tab-title { color: var(--accent-text); }
+
+/* ---------- Title box → card flow ---------- */
+/* The open title box extends toward its own card as a straight band. The flow
+   runs the FULL height of that title box (top edge to bottom edge) and stops
+   exactly at its card, so the card reads as coming out of the title box it
+   belongs to. --neck-w is the measured gap between box and card and --neck-on
+   reveals the band, both set in script.js once the layout has settled. */
+.project-tab::after,
+.brief-tab::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  opacity: 0;
+  transition: opacity 200ms var(--ease);
+  pointer-events: none;
+}
+/* band grows to the right (title box on the left of the card) */
+#projects-col-a .project-tab[aria-expanded="true"]::after,
+.briefs-list .brief-tab[aria-expanded="true"]::after {
+  left: 100%;
+  width: var(--neck-w, 40px);
+  background: var(--surface-2);
+}
+/* band grows to the left (title box on the right of the card) */
+#projects-col-b .project-tab[aria-expanded="true"]::after {
+  right: 100%;
+  width: var(--neck-w, 40px);
+  background: var(--surface-2);
+}
+.project-tab[aria-expanded="true"]::after { opacity: var(--neck-on, 0); }
+/* the open box squares off on its flowing edge so box + band read as one shape */
+#projects-col-a .project-tab[aria-expanded="true"],
+.briefs-list .brief-tab[aria-expanded="true"] {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+#projects-col-b .project-tab[aria-expanded="true"] {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
 .project-tab-title {
   order: 1;
   font-size: 1.25rem;
@@ -853,6 +1042,21 @@ body.cursor-active .cursor-follower { opacity: 1; }
   padding: clamp(24px, 3vw, 34px);
 }
 .project-panel[hidden] { display: none; }
+
+/* ---------- Detail swap ---------- */
+/* Both cards share one grid cell so they can cross-fade in place while
+   GSAP drives the page turn (see script.js). */
+.projects-detail,
+.briefs-detail {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+}
+.projects-detail .project-panel,
+.briefs-detail .brief-card {
+  grid-area: 1 / 1;
+  align-self: start;
+}
 .project-panel-title {
   order: 1;
   font-size: var(--step-2);
@@ -913,24 +1117,7 @@ body.cursor-active .cursor-follower { opacity: 1; }
 }
 .project-link-inline:hover { color: var(--ink); }
 
-.projects-connector {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
 .projects-col, .projects-detail { position: relative; z-index: 1; }
-.projects-connector path {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  opacity: 0;
-  transition: opacity 300ms var(--ease);
-}
-.projects.is-open .projects-connector path { opacity: 0.85; }
 
 /* ---------- Briefs: master–detail ---------- */
 .briefs {
@@ -959,11 +1146,11 @@ body.cursor-active .cursor-follower { opacity: 1; }
   min-width: 0;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 320ms var(--ease) 140ms, transform 440ms var(--ease) 140ms;
+  transition: opacity 320ms var(--ease) 140ms, transform 440ms var(--ease) 140ms,
+              height 420ms var(--ease);
 }
 .briefs.is-open .briefs-detail { opacity: 1; transform: none; }
 .briefs-detail, .briefs-list { position: relative; z-index: 1; }
-.briefs.is-open .projects-connector path { opacity: 0.85; }
 
 .brief-card {
   background: var(--surface);
@@ -1087,6 +1274,18 @@ body.cursor-active .cursor-follower { opacity: 1; }
 .certs-table tbody tr { transition: background-color var(--dur) var(--ease); }
 .certs-table tbody tr:hover { background: var(--surface); }
 
+/* Row reveal: script.js wraps each cell's content so the stagger can be
+   applied to the text without relying on transforms on table cells. */
+.cert-cell {
+  display: inline-block;
+  transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+  transition-delay: calc(var(--row-i, 0) * 50ms);
+}
+.certs-table tbody tr.reveal:not(.is-visible) .cert-cell {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
 /* ---------- Contact ---------- */
 .contact-grid {
   display: grid;
@@ -1150,9 +1349,27 @@ body.cursor-active .cursor-follower { opacity: 1; }
   background: var(--bg);
 }
 .form-group textarea { resize: vertical; min-height: 120px; }
-.form-status { font-size: var(--step--1); color: var(--muted); min-height: 1.2em; }
+.form-status {
+  font-size: var(--step--1);
+  color: var(--muted);
+  min-height: 1.2em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+}
+.form-status.show { opacity: 1; transform: none; }
 .form-status.success { color: #4ade80; }
 .form-status.error { color: var(--accent-hover); }
+
+/* Invalid field: red edge plus a short shake */
+.form-group.is-invalid input,
+.form-group.is-invalid textarea { border-color: var(--accent-hover); }
+.form-group.is-invalid { animation: fieldShake 340ms var(--ease); }
+@keyframes fieldShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  60% { transform: translateX(4px); }
+}
 
 /* ---------- Footer ---------- */
 .footer {
@@ -1194,6 +1411,21 @@ body.cursor-active .cursor-follower { opacity: 1; }
 .photo-frame { animation: heroIn 800ms var(--ease) 200ms backwards; }
 @keyframes heroIn {
   from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Hero name: per-character reveal ---------- */
+/* script.js splits the name into characters; the letters carry the entrance
+   so the whole-name fade would only fight them. */
+.hero-copy > .hero-name { animation: none; }
+.hero-word { display: inline-block; white-space: nowrap; }
+.hero-char {
+  display: inline-block;
+  animation: charIn 600ms var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 42ms + 100ms);
+}
+@keyframes charIn {
+  from { opacity: 0; transform: translateY(0.34em); }
   to { opacity: 1; transform: none; }
 }
 
@@ -1270,7 +1502,9 @@ body.cursor-active .cursor-follower { opacity: 1; }
   }
   .briefs-list,
   .briefs.is-open .briefs-list { width: auto; max-width: 100%; transform: none; }
-  .projects-connector { display: none; }
+  /* stacked layout: the card sits under the list, so there is no side flow */
+  .project-tab::after,
+  .brief-tab::after { display: none; }
 }
 
 @media (max-width: 860px) {
@@ -1283,6 +1517,19 @@ body.cursor-active .cursor-follower { opacity: 1; }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
   .edu-row { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .edu-badge { justify-self: start; }
+
+  /* Achievements become a snap-scrolling strip on narrow screens */
+  .achievements-grid {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .achievements-grid::-webkit-scrollbar { display: none; }
+  .achievement-card { flex: 0 0 78%; scroll-snap-align: start; }
 }
 
 @media (max-width: 640px) {
